@@ -236,6 +236,19 @@ def get_enemy(enemy_lst, num):
     return enemy, num
 
 
+def wins_lst(enemy_lst):
+    """
+    Displays a list of the defeated enemies. Checks for health_points 0
+    """
+    lst_num = 1
+    for row in enemy_lst:
+        if row[3] == 0:
+            print(f"{lst_num}. {row[1]}")
+            lst_num += 1
+        else:
+            lst_num = 1
+
+
 def character_input():
     """
     Handles the user input to create the player character. Automates unique
