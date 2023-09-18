@@ -294,7 +294,7 @@ def download(enemy_lst):
     return enemy_lst
 
 
-def character_input():
+def character_input(enemy_lst):
     """
     Handles the user input to create the player character. Automates unique
     stats for the types human/elf/dwarf/orc.
@@ -355,7 +355,7 @@ def character_input():
             print(
                 f"Choices available are Human/Elf/Dwarf/Orc\nYou entered '{type_choice}'"
             )
-    add_stat_points(player, stat_points)
+    add_stat_points(player, stat_points, enemy_lst)
     return player
 
 
