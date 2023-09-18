@@ -448,7 +448,7 @@ def sword_battle(player, enemy_lst, enemy, num):
     """
     total = 0
     clear_screen()
-    print("\t\t⚔⚔⚔---Battle---⚔⚔⚔")
+    text_center("⚔⚔⚔---Battle---⚔⚔⚔")
     while True:
         attack = (player.skill_points + battle_dice(6, total)) - (
             enemy.skill_points + battle_dice(6, total)
@@ -470,14 +470,12 @@ def sword_battle(player, enemy_lst, enemy, num):
             text_center(f"{enemy.name.upper()} now has {enemy.health_points} HP left")
             time.sleep(2)
             if enemy.health_points < 1:
-                text_center(
-                    f"""{enemy.name.upper()} recieves a final blow.
-                    {player.name.upper()} lifts the sword in triumph"""
-                )
-                battle_over = input_center(
-                    f"""The fight is over {enemy.name.upper()} is defeated. Press enter to
-                     continue the quest: """
-                )
+                game_title()
+                text_center(f"{enemy.name.upper()} recieves a final blow.")
+                text_center(f"{player.name.upper()} lifts the sword in triumph")
+                text_center(f"{enemy.name.upper()} is defeated.")
+
+                battle_over = input_center(f"Press enter to continue the quest:")
                 time.sleep(1)
                 dead = enemy_lst[num]
                 dead[3] = 0
