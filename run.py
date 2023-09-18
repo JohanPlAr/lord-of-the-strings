@@ -1,3 +1,4 @@
+"""Providing random number functions."""
 import random
 import os
 import time
@@ -490,17 +491,6 @@ def story(player, enemy):
     print(f"\t\t⚔⚔⚔---LORD OF THE STRINGS---⚔⚔⚔\n\n{reply}")
     messages.append({"role": "assistant", "content": reply})
     start_battle = input("\nPress Enter to start the battle")
-
-
-def main():
-    player = "Player has not been created"
-    clear_screen()
-    game_title()
-    opponents_lst(read_enemy_csv)
-    game_menu()
-    print(dice(1))
-    character_input()
-    print(read_enemy_csv())
 
 
 def main():
