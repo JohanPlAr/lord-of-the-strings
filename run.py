@@ -1,3 +1,4 @@
+import random
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -30,6 +31,19 @@ def game_title():
     text_center("⚔⚔⚔---LORD OF THE STRINGS---⚔⚔⚔")
 
 
+def dice(num):
+    """
+    Simulates a six sided dice roll. The num parameter describes number of rolls
+    being called
+    """
+    result = 0
+    total = 0
+    for _ in range(num):
+        result = random.randint(1, 6)
+        total += result
+    return total
+
+
 class CharacterStats:
     """
     Object collects the character and selected enemy stats. __str__ used to make
@@ -56,6 +70,7 @@ class CharacterStats:
 
 def main():
     game_title()
+    print(dice(1))
 
 
 main()
