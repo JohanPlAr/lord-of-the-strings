@@ -127,6 +127,23 @@ def game_menu():
             print("Invalid option selected. Please try again.")
 
 
+def opponents_lst(enemy_lst):
+    """
+    Displays enemies available for battle. zip is used to display the list
+    in two columns.
+    """
+    while True:
+        two_col_lst = []
+        x_num = 1
+        columns = 2
+        for row in enemy_lst:
+            if row[3] != 0:
+                two_col_lst.append(f"{x_num}. {row[1].upper()}")
+                x_num += 1
+
+        for first, second in zip(two_col_lst[::columns], two_col_lst[1::columns]):
+            print(f"{first: <13}\t\t{second: <13}")
+
 def character_input():
     """
     Handles the user input to create the player character. Automates unique
@@ -189,13 +206,70 @@ def character_input():
             print(
                 f"Choices available are Human/Elf/Dwarf/Orc\nYou entered '{type_choice}'"
             )
-
+    add_stat_points(player, stat_points)
     return player
 
+def add_stat_points(player, stat_points, enemy_lst):
+    """
+    The final stage of the character creation which let's the user place stat_points
+    of their choice.
+    """
+    while True:
+        clear_screen()
+        game_title()
+        if stat_points < 1:
+            clear_screen()
+            game_title()
+            print(f"You have {stat_points} points to add to your stats")
+            print(player)
+            leave()
+            game_menu(player, enemy_lst)
+        print(f"You have {stat_points} points to add to your abilities")
+        print(player)
+        if stat_points > 0:
+            select_attribute = input("Choose attribute: ")
+
+        if select_attribute == "1":
+            activate_stat_points = int(input("How many points do you wish to add: "))
+
+            if activate_stat_points <= stat_points:
+                player.strength_points += activate_stat_points
+                stat_points -= activate_stat_points
+            else:
+                print(f"Not enough points left\nYou have {stat_points} left")
+                add_stat_points(player, stat_points, enemy_lst)
+        elif select_attribute == "2":
+            activate_stat_points = int(input("How many points do you wish to add: "))
+            if activate_stat_points <= stat_points:
+                player.health_points += activate_stat_points
+                stat_points -= activate_stat_points
+            else:
+                print(f"Not enough points left\nYou have {stat_points} left")
+                add_stat_points(player, stat_points, enemy_lst)
+        elif select_attribute == "3":
+            activate_stat_points = int(input("How many points do you wish to add: "))
+            if activate_stat_points <= stat_points:
+                player.skill_points += activate_stat_points
+                stat_points -= activate_stat_points
+            else:
+                print(f"Not enough points left\nYou have {stat_points} left")
+                add_stat_points(player, stat_points, enemy_lst)
+        elif select_attribute == "4":
+            activate_stat_points = int(input("How many points do you wish to add: "))
+            if activate_stat_points <= stat_points:
+                player.armor += activate_stat_points
+                stat_points -= activate_stat_points
+            else:
+                print(f"Not enough points left\nYou have {stat_points} left")
+                add_stat_points(player, stat_points, enemy_lst)
+        else:
+            print(f"Choices available are 1,2,3,4\nYou entered '{select_attribute}'")
 
 def main():
     clear_screen()
     game_title()
+    opponents_lst(read_enemy_csv)
+    game_menu()
     print(dice(1))
     character_input()
     print(read_enemy_csv())
