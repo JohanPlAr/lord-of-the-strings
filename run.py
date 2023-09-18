@@ -270,6 +270,7 @@ def wins_lst(enemy_lst):
             lst_num += 1
         else:
             lst_num = 1
+        leave()
 
 
 def download(enemy_lst):
