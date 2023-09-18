@@ -15,6 +15,13 @@ SHEET = GSPREAD_CLIENT.open("enemy").sheet1
 MOREENEMIES = GSPREAD_CLIENT.open("reset").sheet1
 
 
+def clear_screen():
+    """
+    Clears the screen, cover the commands for Windows "nt" with "cls" and clear for else
+    """
+    os.system("cls" if os.name == "nt" else "clear")
+
+
 def text_center(text):
     """
     Placing text in center of 62 Character line
@@ -145,6 +152,7 @@ def character_input():
 
 
 def main():
+    clear_screen()
     game_title()
     print(dice(1))
     character_input()
