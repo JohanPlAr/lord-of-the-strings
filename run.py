@@ -152,9 +152,9 @@ def game_menu():
             print("Invalid option selected. Please try again.")
 
 
-def opponents_lst(enemy_lst):
+def opponents_lst(player, enemy_lst):
     """
-    Displays enemies available for battle. zip is used to display the list
+    Displays the undefeated enemies available for battle. zip is used to display the list
     in two columns.
     """
     while True:
@@ -168,6 +168,44 @@ def opponents_lst(enemy_lst):
 
         for first, second in zip(two_col_lst[::columns], two_col_lst[1::columns]):
             print(f"{first: <13}\t\t{second: <13}")
+
+        if player != "Hero has not been created":
+            opponent = input("Please select an opponent or 'M' for back to menu: ")
+            x_num = 0
+            undef_opponent_lst = []
+            for row in enemy_lst:
+                if row[3] != 0:
+                    undef_opponent_lst.append(row)
+            if opponent.lower() == "m":
+                game_menu(player, enemy_lst)
+            try:
+                if int(opponent) - 1 in range(len(undef_opponent_lst)):
+                    for row in undef_opponent_lst:
+                        x_num += 1
+                        if int(opponent) == x_num:
+                            num = int(opponent) - 1
+                            return player, enemy_lst, num
+            except ValueError:
+                clear_screen()
+                game_title()
+                print(
+                    f"Pick a number from the list or 'M' menu.\nYou entered '{opponent}'"
+                )
+            else:
+                clear_screen()
+                game_title()
+                print(
+                    f"Pick a number from the list or 'M' menu.\nYou entered '{opponent}'"
+                )
+
+        else:
+            clear_screen()
+            game_title()
+            print("GAME MENU:")
+            print("\nNo Hero Created. Please Go To Menu")
+            leave()
+            game_menu(player, enemy_lst)
+            break
 
 
 def get_enemy(enemy_lst, num):
