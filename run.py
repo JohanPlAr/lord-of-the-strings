@@ -170,7 +170,7 @@ def game_menu(player, enemy_lst):
         print()
         selection = input_center("Please select an option: ")
         if selection == "1":
-            character_input(enemy_lst)
+            character_input(player, enemy_lst)
         elif selection == "2":
             game_title()
             if player != "Hero has not been created":
@@ -308,12 +308,18 @@ def download(enemy_lst):
     return enemy_lst
 
 
-def character_input(enemy_lst):
+def character_input(player, enemy_lst):
     """
     Handles the user input to create the player character. Automates unique
     stats for the types human/elf/dwarf/orc.
     """
     game_title()
+    if player != "Hero has not been created":
+        text_center(f" WARNING! Creating a new character will erase {player.name}")
+        continue_create = input_center("Do you still wish to continue y/n?")
+        if continue_create.lower() != "y":
+            game_menu(player, enemy_lst)
+
     text_center("CREATE A NEW CHARACTER")
     print()
     name = input(f"\t\tNAME: ")
@@ -332,7 +338,12 @@ def character_input(enemy_lst):
             armor = 0
             stat_points = dice(2)
             player = CharacterStats(
-                char_type, name, strength_points, health_points, skill_points, armor
+                char_type,
+                name,
+                strength_points,
+                health_points,
+                skill_points,
+                armor,
             )
             break
         elif type_choice == "2" or type_choice == "elf":
@@ -343,7 +354,12 @@ def character_input(enemy_lst):
             armor = 0
             stat_points = dice(3)
             player = CharacterStats(
-                char_type, name, strength_points, health_points, skill_points, armor
+                char_type,
+                name,
+                strength_points,
+                health_points,
+                skill_points,
+                armor,
             )
             break
         elif type_choice == "3" or type_choice == "dwarf":
@@ -354,7 +370,12 @@ def character_input(enemy_lst):
             armor = dice(1)
             stat_points = dice(1)
             player = CharacterStats(
-                char_type, name, strength_points, health_points, skill_points, armor
+                char_type,
+                name,
+                strength_points,
+                health_points,
+                skill_points,
+                armor,
             )
             break
         elif type_choice == "4" or type_choice == "orc":
@@ -365,7 +386,12 @@ def character_input(enemy_lst):
             armor = 3
             stat_points = dice(2)
             player = CharacterStats(
-                char_type, name, strength_points, health_points, skill_points, armor
+                char_type,
+                name,
+                strength_points,
+                health_points,
+                skill_points,
+                armor,
             )
             break
         else:
