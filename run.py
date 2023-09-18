@@ -348,6 +348,74 @@ def add_stat_points(player, stat_points, enemy_lst):
             print(f"Choices available are 1,2,3,4\nYou entered '{select_attribute}'")
 
 
+def sword_battle(player, enemy_lst, enemy, num):
+    """
+    handles the battle logic between player and selected opponent.
+    """
+    total = 0
+    clear_screen()
+    print("\t\t⚔⚔⚔---Battle---⚔⚔⚔")
+    while True:
+        attack = (player.skill_points + battle_dice(6, total)) - (
+            enemy.skill_points + battle_dice(6, total)
+        )
+        time.sleep(1)
+        if attack == 0:
+            print("The swords clash and no damage is dealt to either opponent")
+            time.sleep(2)
+        if attack > 0:
+            damage = (player.strength_points + dice(1)) - round(
+                enemy.armor + dice(1) + (enemy.skill_points / 2)
+            )
+            if damage < 1:
+                damage = 1
+            print(f"{player.name} strikes {enemy.name} who looses {damage} HP")
+            enemy.health_points -= damage
+            print(f"{enemy.name.upper()} now has {enemy.health_points} HP left")
+            time.sleep(2)
+            if enemy.health_points < 1:
+                print(
+                    f"""{enemy.name.upper()} recieves a final blow. \n{player.name.upper()}
+                     lifts the sword in triumph"""
+                )
+                battle_over = input(
+                    f"""The fight is over {enemy.name.upper()} is defeated. Press enter to
+                     continue the quest: """
+                )
+                time.sleep(1)
+                dead = enemy_lst[num]
+                dead[3] = 0
+                enemy_lst.pop(num)
+                enemy_lst.append(dead)
+                stat_points = 3
+                add_stat_points(player, stat_points, enemy_lst)
+        if attack < 0:
+            damage = (enemy.strength_points + dice(1)) - round(
+                (player.armor + dice(1) + (player.skill_points / 2))
+            )
+            if damage < 1:
+                damage = 1
+            print(
+                f"{enemy.name.upper()} strikes {player.name.upper()} who looses {damage} HP"
+            )
+            player.health_points -= damage
+            print(f"{player.name.upper()} now has {player.health_points} HP left")
+            if player.health_points < 1:
+                print(
+                    f"""{player.name.upper()} recieves a final blow.\n
+                    {enemy.name.upper()} lifts sword in triumph"""
+                )
+                battle_over = input("The fight is over. Press enter: ")
+                clear_screen()
+                print(
+                    f"\n\n\t\t⚔⚔⚔---GAME OVER---⚔⚔⚔\n\n \n\n\t\t\
+                    ☩‌☩‌☩‌--{player.name.upper()}‌--☩‌☩‌☩"
+                )
+                leave()
+                main()
+                break
+
+
 def main():
     player = "Player has not been created"
     clear_screen()
