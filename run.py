@@ -170,6 +170,23 @@ def opponents_lst(enemy_lst):
             print(f"{first: <13}\t\t{second: <13}")
 
 
+def get_enemy(enemy_lst, num):
+    """
+    Creates an "enemy"-instance from CharacterStats object
+    """
+    enemy_vals = enemy_lst[num]
+    char_type = enemy_vals[0]
+    name = enemy_vals[1]
+    strength_points = int(enemy_vals[2])
+    health_points = int(enemy_vals[3])
+    skill_points = int(enemy_vals[4])
+    armor = int(enemy_vals[5])
+    enemy = CharacterStats(
+        char_type, name, strength_points, health_points, skill_points, armor
+    )
+    return enemy, num
+
+
 def character_input():
     """
     Handles the user input to create the player character. Automates unique
