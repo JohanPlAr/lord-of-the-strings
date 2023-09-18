@@ -87,6 +87,46 @@ class CharacterStats:
         ARMOR:\t\t{self.armor}"""
 
 
+def game_menu():
+    """
+    Holds the Game Menu which allows user to choose activities
+    """
+    menu = {}
+    menu["\t\t\t1."] = "Create New Hero"
+    menu["\t\t\t2."] = "View Stats"
+    menu["\t\t\t3."] = "Choose Opponent"
+    menu["\t\t\t4."] = "View Wins"
+    menu["\t\t\t5."] = "Download New Opponents"
+    menu["\t\t\t6."] = "Reset Opponents To Start Settings"
+    menu["\t\t\t7."] = "Quit Game"
+
+    while True:
+        clear_screen()
+        game_title()
+        print("\t\t\tGAME MENU:")
+        options = menu.keys()
+        options = sorted(options)
+        for entry in options:
+            print(entry, menu[entry])
+        selection = input("\t\t\tPlease select an option: ")
+        if selection == "1":
+            character_input()
+        elif selection == "2":
+            clear_screen()
+        elif selection == "3":
+            clear_screen()
+            game_title()
+          elif selection == "4":
+        elif selection == "5":
+        elif selection == "6":
+            enemy_lst = read_enemy_csv()
+        elif selection == "7":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid option selected. Please try again.")
+
+
 def character_input():
     """
     Handles the user input to create the player character. Automates unique
