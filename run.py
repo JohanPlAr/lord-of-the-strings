@@ -61,6 +61,7 @@ def game_title():
     """
     clear_screen()
     text_center("⚔⚔⚔---LORD OF THE STRINGS---⚔⚔⚔")
+    print()
 
 
 def leave():
@@ -90,7 +91,7 @@ def battle_dice(num, total):
     """
     Simulates a six sided dice with the addition that all sixes generates two new
     rolls of dice. This function is only used in the sword_battle function to
-    increase serendipity and allow higher uncertanty in the battles.
+    increase serendipity and allow higher uncertainty in the battles.
     """
     result = 0
     sixes = []
@@ -166,12 +167,16 @@ def game_menu(player, enemy_lst):
         options = sorted(options)
         for entry in options:
             print(entry, menu[entry])
+        print()
         selection = input_center("Please select an option: ")
         if selection == "1":
             character_input(enemy_lst)
         elif selection == "2":
             game_title()
-            print(player)
+            if player != "Hero has not been created":
+                print(player)
+            else:
+                text_center(player)
             leave()
         elif selection == "3":
             game_title()
@@ -215,6 +220,7 @@ def opponents_lst(player, enemy_lst):
             print(f"{first: <13}{second: <13}")
 
         if player != "Hero has not been created":
+            print()
             opponent = input_center(
                 "Please select an opponent or 'M' for back to menu: "
             )
@@ -234,12 +240,12 @@ def opponents_lst(player, enemy_lst):
                             return player, enemy_lst, num
             except ValueError:
                 game_title()
-                print(
+                text_center(
                     f"Pick a number from the list or 'M' menu.\nYou entered '{opponent}'"
                 )
             else:
                 game_title()
-                print(
+                text_center(
                     f"Pick a number from the list or 'M' menu.\nYou entered '{opponent}'"
                 )
 
@@ -311,11 +317,14 @@ def character_input(enemy_lst):
     stats for the types human/elf/dwarf/orc.
     """
     game_title()
-    print("HERO")
-    name = input("NAME: ")
+    text_center("CREATE A NEW CHARACTER")
+    print()
+    name = input(f"\t\tNAME: ")
     time.sleep(1)
     while True:
-        type_choice = input("1. Human\n2. Elf\n3. Dwarf\n4. Orc\n\nTYPE: ").lower()
+        type_choice = input(
+            f"\t\t1. Human\n\t\t2. Elf\n\t\t3. Dwarf\n\t\t4. Orc\n\n\t\tTYPE: "
+        ).lower()
         time.sleep(1)
         clear_screen()
         if type_choice == "1" or type_choice == "human":
@@ -363,7 +372,7 @@ def character_input(enemy_lst):
             )
             break
         else:
-            print(
+            text_center(
                 f"Choices available are Human/Elf/Dwarf/Orc\nYou entered '{type_choice}'"
             )
     add_stat_points(player, stat_points, enemy_lst)
@@ -385,7 +394,7 @@ def add_stat_points(player, stat_points, enemy_lst):
         text_center(f"You have {stat_points} points to add to your abilities")
         print(player)
         if stat_points > 0:
-            select_attribute = input_center("Choose attribute: ")
+            select_attribute = input_center("Choose ability: ")
 
         if select_attribute == "1":
             activate_stat_points = int(
@@ -416,7 +425,9 @@ def add_stat_points(player, stat_points, enemy_lst):
             else:
                 not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "4":
-            activate_stat_points = int(input("How many points do you wish to add: "))
+            activate_stat_points = int(
+                input_center("How many points do you wish to add: ")
+            )
             if activate_stat_points <= stat_points:
                 player.armor += activate_stat_points
                 stat_points -= activate_stat_points
@@ -444,7 +455,7 @@ def sword_battle(player, enemy_lst, enemy, num):
         )
         time.sleep(1)
         if attack == 0:
-            print("The swords clash and no damage is dealt to either opponent")
+            text_center("The swords clash and no damage is dealt to either opponent")
             time.sleep(2)
         if attack > 0:
             damage = (player.strength_points + dice(1)) - round(
@@ -452,16 +463,18 @@ def sword_battle(player, enemy_lst, enemy, num):
             )
             if damage < 1:
                 damage = 1
-            print(f"{player.name} strikes {enemy.name} who looses {damage} HP")
+            text_center(
+                f"{player.name.upper()} strikes {enemy.name.upper()} who looses {damage} HP"
+            )
             enemy.health_points -= damage
-            print(f"{enemy.name.upper()} now has {enemy.health_points} HP left")
+            text_center(f"{enemy.name.upper()} now has {enemy.health_points} HP left")
             time.sleep(2)
             if enemy.health_points < 1:
-                print(
-                    f"""{enemy.name.upper()} recieves a final blow. \n{player.name.upper()}
-                     lifts the sword in triumph"""
+                text_center(
+                    f"""{enemy.name.upper()} recieves a final blow.
+                    {player.name.upper()} lifts the sword in triumph"""
                 )
-                battle_over = input(
+                battle_over = input_center(
                     f"""The fight is over {enemy.name.upper()} is defeated. Press enter to
                      continue the quest: """
                 )
@@ -478,22 +491,21 @@ def sword_battle(player, enemy_lst, enemy, num):
             )
             if damage < 1:
                 damage = 1
-            print(
+            text_center(
                 f"{enemy.name.upper()} strikes {player.name.upper()} who looses {damage} HP"
             )
             player.health_points -= damage
-            print(f"{player.name.upper()} now has {player.health_points} HP left")
+            text_center(f"{player.name.upper()} now has {player.health_points} HP left")
             if player.health_points < 1:
-                print(
-                    f"""{player.name.upper()} recieves a final blow.\n
+                text_center(
+                    f"""{player.name.upper()} recieves a final blow.
                     {enemy.name.upper()} lifts sword in triumph"""
                 )
-                battle_over = input("The fight is over. Press enter: ")
+                battle_over = input_center("The fight is over. Press enter: ")
                 clear_screen()
-                print(
-                    f"\n\n\t\t⚔⚔⚔---GAME OVER---⚔⚔⚔\n\n \n\n\t\t\
-                    ☩‌☩‌☩‌--{player.name.upper()}‌--☩‌☩‌☩"
-                )
+                print(f"\n\n")
+                text_center(f"⚔⚔⚔---GAME OVER---⚔⚔⚔")
+                text_center(f"{player.name.upper()}‌")
                 leave()
                 main()
                 break
@@ -520,7 +532,7 @@ def story(player, enemy):
     reply = chat.choices[0].message.content
     print(f"\t\t⚔⚔⚔---LORD OF THE STRINGS---⚔⚔⚔\n\n{reply}")
     messages.append({"role": "assistant", "content": reply})
-    start_battle = input("\nPress Enter to start the battle")
+    start_battle = input_center("\nPress Enter to start the battle")
 
 
 def main():
