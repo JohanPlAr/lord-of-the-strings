@@ -49,8 +49,10 @@ def input_center(text):
     """
     Placing input label in center of 62 Characters line
     """
-    txt = f"{text}"
-    center_input = input(txt.rjust(62 // 2))
+    txt = f"{text}".upper()
+    num = round(len(txt) / 2)
+    center_input = input(txt.rjust(62 // 2 + num))
+    return center_input
 
 
 def game_title():
@@ -132,11 +134,15 @@ class CharacterStats:
         self.armor = armor
 
     def __str__(self):
-        return f"""\t\t{self.name.upper()} THE MIGHTY {self.char_type.upper()}\n
-        \t1. STRENGTH:\t{self.strength_points}
-        \t2. HEALTH:\t{self.health_points}
-        \t3. SWORD SKILL:\t{self.skill_points}
-        \t4. ARMOR:\t{self.armor}"""
+        player_title = (
+            f"---{self.name.upper()} THE MIGHTY {self.char_type.upper()}---".center(62)
+        )
+        abilities = f"""\t\t\t1. STRENGTH:\t{self.strength_points}
+        \t\t2. HEALTH:\t{self.health_points}
+        \t\t3. SWORD SKILL:\t{self.skill_points}
+        \t\t4. ARMOR:\t{self.armor}"""
+        player_string = f"{player_title}\n{abilities}"
+        return player_string
 
 
 def game_menu(player, enemy_lst):
@@ -144,22 +150,23 @@ def game_menu(player, enemy_lst):
     Holds the Game Menu which allows user to choose activities
     """
     menu = {}
-    menu["\t\t\t1."] = "Create New Hero"
-    menu["\t\t\t2."] = "View Stats"
-    menu["\t\t\t3."] = "Choose Opponent"
-    menu["\t\t\t4."] = "View Wins"
-    menu["\t\t\t5."] = "Download New Opponents"
-    menu["\t\t\t6."] = "Reset Opponents To Start Settings"
-    menu["\t\t\t7."] = "Quit Game"
+    menu["\t\t1."] = "Create New Hero"
+    menu["\t\t2."] = "View Stats"
+    menu["\t\t3."] = "Choose Opponent"
+    menu["\t\t4."] = "View Wins"
+    menu["\t\t5."] = "Download New Opponents"
+    menu["\t\t6."] = "Reset Opponents To Start Settings"
+    menu["\t\t7."] = "Quit Game"
 
     while True:
         game_title()
-        print("\t\t\tGAME MENU:")
+        text_center("GAME MENU:")
+        print()
         options = menu.keys()
         options = sorted(options)
         for entry in options:
             print(entry, menu[entry])
-        selection = input("\t\t\tPlease select an option: ")
+        selection = input_center("Please select an option: ")
         if selection == "1":
             character_input(enemy_lst)
         elif selection == "2":
@@ -200,14 +207,16 @@ def opponents_lst(player, enemy_lst):
         columns = 2
         for row in enemy_lst:
             if row[3] != 0:
-                two_col_lst.append(f"{x_num}. {row[1].upper()}")
+                two_col_lst.append(f"\t\t{x_num}. {row[1].upper()}")
                 x_num += 1
 
         for first, second in zip(two_col_lst[::columns], two_col_lst[1::columns]):
-            print(f"{first: <13}\t\t{second: <13}")
+            print(f"{first: <13}{second: <13}")
 
-        if player != text_center("Hero has not been created"):
-            opponent = input("Please select an opponent or 'M' for back to menu: ")
+        if player != "Hero has not been created":
+            opponent = input_center(
+                "Please select an opponent or 'M' for back to menu: "
+            )
             x_num = 0
             undef_opponent_lst = []
             for row in enemy_lst:
@@ -378,7 +387,9 @@ def add_stat_points(player, stat_points, enemy_lst):
             select_attribute = input_center("Choose attribute: ")
 
         if select_attribute == "1":
-            activate_stat_points = int(input("How many points do you wish to add: "))
+            activate_stat_points = int(
+                input_center("How many points do you wish to add: ")
+            )
 
             if activate_stat_points <= stat_points:
                 player.strength_points += activate_stat_points
@@ -386,14 +397,18 @@ def add_stat_points(player, stat_points, enemy_lst):
             else:
                 not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "2":
-            activate_stat_points = int(input("How many points do you wish to add: "))
+            activate_stat_points = int(
+                input_center("How many points do you wish to add: ")
+            )
             if activate_stat_points <= stat_points:
                 player.health_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
                 not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "3":
-            activate_stat_points = int(input("How many points do you wish to add: "))
+            activate_stat_points = int(
+                input_center("How many points do you wish to add: ")
+            )
             if activate_stat_points <= stat_points:
                 player.skill_points += activate_stat_points
                 stat_points -= activate_stat_points
@@ -518,7 +533,7 @@ def main():
     text_center("Now enter the realm")
     leave()
     clear_screen()
-    player = text_center("Hero has not been created")
+    player = "Hero has not been created"
     time.sleep(1)
 
     game_menu(player, enemy_lst)
