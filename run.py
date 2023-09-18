@@ -116,8 +116,12 @@ def game_menu():
         elif selection == "3":
             clear_screen()
             game_title()
-          elif selection == "4":
+        elif selection == "4":
+            clear_screen()
+            game_title()
         elif selection == "5":
+            clear_screen()
+            game_title()
         elif selection == "6":
             enemy_lst = read_enemy_csv()
         elif selection == "7":
@@ -143,6 +147,7 @@ def opponents_lst(enemy_lst):
 
         for first, second in zip(two_col_lst[::columns], two_col_lst[1::columns]):
             print(f"{first: <13}\t\t{second: <13}")
+
 
 def character_input():
     """
@@ -209,6 +214,7 @@ def character_input():
     add_stat_points(player, stat_points)
     return player
 
+
 def add_stat_points(player, stat_points, enemy_lst):
     """
     The final stage of the character creation which let's the user place stat_points
@@ -223,7 +229,7 @@ def add_stat_points(player, stat_points, enemy_lst):
             print(f"You have {stat_points} points to add to your stats")
             print(player)
             leave()
-            game_menu(player, enemy_lst)
+            game_menu()
         print(f"You have {stat_points} points to add to your abilities")
         print(player)
         if stat_points > 0:
@@ -265,7 +271,9 @@ def add_stat_points(player, stat_points, enemy_lst):
         else:
             print(f"Choices available are 1,2,3,4\nYou entered '{select_attribute}'")
 
+
 def main():
+    player = "Player has not been created"
     clear_screen()
     game_title()
     opponents_lst(read_enemy_csv)
