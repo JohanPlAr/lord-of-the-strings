@@ -59,6 +59,16 @@ def game_title():
     text_center("⚔⚔⚔---LORD OF THE STRINGS---⚔⚔⚔")
 
 
+def leave():
+    """
+    Input used to pause program before user is leaving function.
+    Asking the user to interact with enter before leaving.
+    """
+    leave_input = input("MENU press Enter: ".rjust(80 // 2))
+    if leave_input is True:
+        clear_screen()
+
+
 def dice(num):
     """
     Simulates a six sided dice roll. The num parameter describes number of rolls
