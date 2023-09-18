@@ -183,6 +183,7 @@ def game_menu(player, enemy_lst):
             game_title()
             print("")
             wins_lst(enemy_lst)
+            leave()
         elif selection == "5":
             enemy_lst = download(enemy_lst)
             print("New Opponents Successfully Downloaded")
@@ -272,6 +273,7 @@ def wins_lst(enemy_lst):
     """
     Displays a list of the defeated enemies. Checks for health_points 0
     """
+    text_center("DEFEATED OPPONENTS:")
     lst_num = 1
     for row in enemy_lst:
         if row[3] == 0:
@@ -279,7 +281,6 @@ def wins_lst(enemy_lst):
             lst_num += 1
         else:
             lst_num = 1
-        leave()
 
 
 def download(enemy_lst):
