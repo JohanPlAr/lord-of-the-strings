@@ -370,7 +370,7 @@ def add_stat_points(player, stat_points, enemy_lst):
             print(f"You have {stat_points} points to add to your stats")
             print(player)
             leave()
-            game_menu()
+            game_menu(player, enemy_lst)
         print(f"You have {stat_points} points to add to your abilities")
         print(player)
         if stat_points > 0:
