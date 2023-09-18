@@ -132,11 +132,11 @@ class CharacterStats:
         self.armor = armor
 
     def __str__(self):
-        return f"""{self.name.upper()} THE MIGHTY {self.char_type.upper()}\n
-        STRENGTH:\t{self.strength_points}\n
-        HEALTH:\t\t{self.health_points}\n
-        SWORD SKILL:\t{self.skill_points}\n
-        ARMOR:\t\t{self.armor}"""
+        return f"""\t\t{self.name.upper()} THE MIGHTY {self.char_type.upper()}\n
+        1. STRENGTH:\t{self.strength_points}
+        2. HEALTH:\t\t{self.health_points}
+        3. SWORD SKILL:\t{self.skill_points}
+        4. ARMOR:\t\t{self.armor}"""
 
 
 def game_menu(player, enemy_lst):
