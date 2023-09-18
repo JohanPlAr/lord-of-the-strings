@@ -278,6 +278,28 @@ def wins_lst(enemy_lst):
             lst_num = 1
 
 
+def download(enemy_lst):
+    """
+    Updates the enemy_lst with new enemies. The addenemy_lst list is crosschecked against enemy_lst
+    and duplicates are removed. The enemy_lst is added to the bottom of addenemy_lst and then
+    redefined to equal the updated addenemy_lst before returned.
+    """
+    addenemy_lst = MOREENEMIES.get_all_values()[1:]
+    list_num = 0
+    for row in addenemy_lst:
+        list_num += 1
+        if row[1] in [sublist[1] for sublist in enemy_lst]:
+            addenemy_lst.pop(list_num - 1)
+    list_num = 0
+    for row in enemy_lst:
+        list_num += 1
+        if row[1] not in [sublist[1] for sublist in addenemy_lst]:
+            addenemy_lst.append(row)
+    enemy_lst = addenemy_lst
+    print(enemy_lst)
+    return enemy_lst
+
+
 def character_input():
     """
     Handles the user input to create the player character. Automates unique
