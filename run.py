@@ -137,7 +137,7 @@ class CharacterStats:
         ARMOR:\t\t{self.armor}"""
 
 
-def game_menu():
+def game_menu(player, enemy_lst):
     """
     Holds the Game Menu which allows user to choose activities
     """
@@ -160,18 +160,28 @@ def game_menu():
             print(entry, menu[entry])
         selection = input("\t\t\tPlease select an option: ")
         if selection == "1":
-            character_input()
+            character_input(enemy_lst)
         elif selection == "2":
             clear_screen()
+            game_title()
+            print(player)
+            leave()
         elif selection == "3":
             clear_screen()
             game_title()
+            player, enemy_lst, num = opponents_lst(player, enemy_lst)
+            enemy, num = get_enemy(enemy_lst, num)
+            story(player, enemy)
+            sword_battle(player, enemy_lst, enemy, num)
         elif selection == "4":
             clear_screen()
             game_title()
+            print("")
+            wins_lst(enemy_lst)
         elif selection == "5":
-            clear_screen()
-            game_title()
+            enemy_lst = download(enemy_lst)
+            print("New Opponents Successfully Downloaded")
+
         elif selection == "6":
             enemy_lst = read_enemy_csv()
         elif selection == "7":
