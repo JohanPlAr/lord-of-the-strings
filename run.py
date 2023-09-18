@@ -44,6 +44,14 @@ def text_center(text):
     print(center_txt)
 
 
+def input_center(text):
+    """
+    Placing input label in center of 62 Characters line
+    """
+    txt = f"{text}"
+    center_input = input(txt.rjust(62 // 2))
+
+
 def game_title():
     """
     Prints the game title
