@@ -3,6 +3,9 @@ import os
 import time
 import gspread
 from google.oauth2.service_account import Credentials
+import openai
+from dotenv import load_dotenv
+
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -15,6 +18,14 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("enemy").sheet1
 MOREENEMIES = GSPREAD_CLIENT.open("reset").sheet1
+
+
+def configure():
+    """
+    Fetches the API KEY from the .env file
+    """
+    load_dotenv()
+    openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 def clear_screen():
