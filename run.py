@@ -206,7 +206,7 @@ def opponents_lst(player, enemy_lst):
         for first, second in zip(two_col_lst[::columns], two_col_lst[1::columns]):
             print(f"{first: <13}\t\t{second: <13}")
 
-        if player != "Hero has not been created":
+        if player != text_center("Hero has not been created"):
             opponent = input("Please select an opponent or 'M' for back to menu: ")
             x_num = 0
             undef_opponent_lst = []
@@ -235,8 +235,7 @@ def opponents_lst(player, enemy_lst):
 
         else:
             game_title()
-            print("GAME MENU:")
-            print("\nNo Hero Created. Please Go To Menu")
+            text_center("\nNo Hero Created. Please Go To Menu")
             leave()
             game_menu(player, enemy_lst)
             break
@@ -517,7 +516,7 @@ def main():
     text_center("Now enter the realm")
     leave()
     clear_screen()
-    player = "Hero has not been created"
+    player = text_center("Hero has not been created")
     time.sleep(1)
 
     game_menu(player, enemy_lst)
