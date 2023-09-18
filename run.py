@@ -68,9 +68,76 @@ class CharacterStats:
         ARMOR:\t\t{self.armor}"""
 
 
+def character_input():
+    """
+    Handles the user input to create the player character. Automates unique
+    stats for the types human/elf/dwarf/orc.
+    """
+    clear_screen()
+    game_title()
+    print("HERO")
+    name = input("NAME: ")
+    time.sleep(1)
+    while True:
+        type_choice = input("1. Human\n2. Elf\n3. Dwarf\n4. Orc\n\nTYPE: ").lower()
+        time.sleep(1)
+        clear_screen()
+        if type_choice == "1" or type_choice == "human":
+            char_type = "human"
+            strength_points = 2 + dice(1)
+            health_points = 3 + dice(2)
+            skill_points = 4 + dice(1)
+            armor = 0
+            stat_points = dice(2)
+            player = CharacterStats(
+                char_type, name, strength_points, health_points, skill_points, armor
+            )
+            break
+        elif type_choice == "2" or type_choice == "elf":
+            char_type = "elf"
+            strength_points = 2 + dice(1)
+            health_points = 2 + dice(1)
+            skill_points = 4 + dice(1)
+            armor = 0
+            stat_points = dice(3)
+            player = CharacterStats(
+                char_type, name, strength_points, health_points, skill_points, armor
+            )
+            break
+        elif type_choice == "3" or type_choice == "dwarf":
+            char_type = "dwarf"
+            strength_points = 3 + dice(2)
+            health_points = 3 + dice(1)
+            skill_points = 2 + dice(1)
+            armor = dice(1)
+            stat_points = dice(1)
+            player = CharacterStats(
+                char_type, name, strength_points, health_points, skill_points, armor
+            )
+            break
+        elif type_choice == "4" or type_choice == "orc":
+            char_type = "orc"
+            strength_points = 2 + dice(2)
+            health_points = 2 + dice(1)
+            skill_points = dice(1)
+            armor = 3
+            stat_points = dice(2)
+            player = CharacterStats(
+                char_type, name, strength_points, health_points, skill_points, armor
+            )
+            break
+        else:
+            print(
+                f"Choices available are Human/Elf/Dwarf/Orc\nYou entered '{type_choice}'"
+            )
+
+    return player
+
+
 def main():
     game_title()
     print(dice(1))
+    character_input()
 
 
 main()
