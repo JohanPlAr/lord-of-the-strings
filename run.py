@@ -133,10 +133,10 @@ class CharacterStats:
 
     def __str__(self):
         return f"""\t\t{self.name.upper()} THE MIGHTY {self.char_type.upper()}\n
-        1. STRENGTH:\t{self.strength_points}
-        2. HEALTH:\t\t{self.health_points}
-        3. SWORD SKILL:\t{self.skill_points}
-        4. ARMOR:\t\t{self.armor}"""
+        \t1. STRENGTH:\t{self.strength_points}
+        \t2. HEALTH:\t{self.health_points}
+        \t3. SWORD SKILL:\t{self.skill_points}
+        \t4. ARMOR:\t{self.armor}"""
 
 
 def game_menu(player, enemy_lst):
@@ -235,7 +235,8 @@ def opponents_lst(player, enemy_lst):
 
         else:
             game_title()
-            text_center("\nNo Hero Created. Please Go To Menu")
+            print()
+            text_center("No Hero Created. Please Go To Menu")
             leave()
             game_menu(player, enemy_lst)
             break
@@ -367,14 +368,14 @@ def add_stat_points(player, stat_points, enemy_lst):
     while True:
         game_title()
         if stat_points < 1:
-            print(f"You have {stat_points} points to add to your stats")
+            text_center(f"You have {stat_points} points to add to your stats")
             print(player)
             leave()
             game_menu(player, enemy_lst)
-        print(f"You have {stat_points} points to add to your abilities")
+        text_center(f"You have {stat_points} points to add to your abilities")
         print(player)
         if stat_points > 0:
-            select_attribute = input("Choose attribute: ")
+            select_attribute = input_center("Choose attribute: ")
 
         if select_attribute == "1":
             activate_stat_points = int(input("How many points do you wish to add: "))
@@ -383,34 +384,35 @@ def add_stat_points(player, stat_points, enemy_lst):
                 player.strength_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
-                print(f"Not enough points left\nYou have {stat_points} left")
-                add_stat_points(player, stat_points, enemy_lst)
+                not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "2":
             activate_stat_points = int(input("How many points do you wish to add: "))
             if activate_stat_points <= stat_points:
                 player.health_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
-                print(f"Not enough points left\nYou have {stat_points} left")
-                add_stat_points(player, stat_points, enemy_lst)
+                not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "3":
             activate_stat_points = int(input("How many points do you wish to add: "))
             if activate_stat_points <= stat_points:
                 player.skill_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
-                print(f"Not enough points left\nYou have {stat_points} left")
-                add_stat_points(player, stat_points, enemy_lst)
+                not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "4":
             activate_stat_points = int(input("How many points do you wish to add: "))
             if activate_stat_points <= stat_points:
                 player.armor += activate_stat_points
                 stat_points -= activate_stat_points
             else:
-                print(f"Not enough points left\nYou have {stat_points} left")
-                add_stat_points(player, stat_points, enemy_lst)
+                not_enough_points(player, stat_points, enemy_lst)
         else:
             print(f"Choices available are 1,2,3,4\nYou entered '{select_attribute}'")
+
+
+def not_enough_points(player, stat_points, enemy_lst):
+    text_center(f"Not enough points left\nYou have {stat_points} left")
+    add_stat_points(player, stat_points, enemy_lst)
 
 
 def sword_battle(player, enemy_lst, enemy, num):
