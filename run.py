@@ -44,6 +44,16 @@ def dice(num):
     return total
 
 
+def read_enemy_csv():
+    """
+    Reads the google sheet file and storing it in the variable enemy_lst.
+    enemy_lst variable is passed along during the game and only reset to restart
+    the settings
+    """
+    enemy_lst = SHEET.get_all_values()[1:]
+    return enemy_lst
+
+
 class CharacterStats:
     """
     Object collects the character and selected enemy stats. __str__ used to make
@@ -138,6 +148,7 @@ def main():
     game_title()
     print(dice(1))
     character_input()
+    print(read_enemy_csv())
 
 
 main()
