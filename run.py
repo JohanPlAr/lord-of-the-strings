@@ -55,8 +55,9 @@ def input_center(text):
 
 def game_title():
     """
-    Prints the game title
+    Clears the screen and prints the game title
     """
+    clear_screen()
     text_center("⚔⚔⚔---LORD OF THE STRINGS---⚔⚔⚔")
 
 
@@ -152,7 +153,6 @@ def game_menu(player, enemy_lst):
     menu["\t\t\t7."] = "Quit Game"
 
     while True:
-        clear_screen()
         game_title()
         print("\t\t\tGAME MENU:")
         options = menu.keys()
@@ -163,19 +163,16 @@ def game_menu(player, enemy_lst):
         if selection == "1":
             character_input(enemy_lst)
         elif selection == "2":
-            clear_screen()
             game_title()
             print(player)
             leave()
         elif selection == "3":
-            clear_screen()
             game_title()
             player, enemy_lst, num = opponents_lst(player, enemy_lst)
             enemy, num = get_enemy(enemy_lst, num)
             story(player, enemy)
             sword_battle(player, enemy_lst, enemy, num)
         elif selection == "4":
-            clear_screen()
             game_title()
             print("")
             wins_lst(enemy_lst)
@@ -226,20 +223,17 @@ def opponents_lst(player, enemy_lst):
                             num = int(opponent) - 1
                             return player, enemy_lst, num
             except ValueError:
-                clear_screen()
                 game_title()
                 print(
                     f"Pick a number from the list or 'M' menu.\nYou entered '{opponent}'"
                 )
             else:
-                clear_screen()
                 game_title()
                 print(
                     f"Pick a number from the list or 'M' menu.\nYou entered '{opponent}'"
                 )
 
         else:
-            clear_screen()
             game_title()
             print("GAME MENU:")
             print("\nNo Hero Created. Please Go To Menu")
@@ -305,7 +299,6 @@ def character_input():
     Handles the user input to create the player character. Automates unique
     stats for the types human/elf/dwarf/orc.
     """
-    clear_screen()
     game_title()
     print("HERO")
     name = input("NAME: ")
@@ -372,11 +365,8 @@ def add_stat_points(player, stat_points, enemy_lst):
     of their choice.
     """
     while True:
-        clear_screen()
         game_title()
         if stat_points < 1:
-            clear_screen()
-            game_title()
             print(f"You have {stat_points} points to add to your stats")
             print(player)
             leave()
@@ -521,7 +511,6 @@ def main():
     """
     configure()
     enemy_lst = SHEET.get_all_values()[1:]
-    clear_screen()
     game_title()
     text_center("A RPG-adventure game powered by the story-telling of chat-gpt")
     text_center("Now enter the realm")
