@@ -503,4 +503,22 @@ def main():
     print(read_enemy_csv())
 
 
+def main():
+    """
+    Controls calls for the api and game functions. Prints the "title-page"
+    """
+    configure()
+    enemy_lst = SHEET.get_all_values()[1:]
+    clear_screen()
+    game_title()
+    text_center("A RPG-adventure game powered by the story-telling of chat-gpt")
+    text_center("Now enter the realm")
+    leave()
+    clear_screen()
+    player = "Hero has not been created"
+    time.sleep(1)
+
+    game_menu(player, enemy_lst)
+
+
 main()
