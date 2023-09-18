@@ -186,7 +186,6 @@ def game_menu(player, enemy_lst):
             sword_battle(player, enemy_lst, enemy, num)
         elif selection == "4":
             game_title()
-            print("")
             wins_lst(enemy_lst)
             leave()
         elif selection == "5":
@@ -240,19 +239,17 @@ def opponents_lst(player, enemy_lst):
                             return player, enemy_lst, num
             except ValueError:
                 game_title()
-                text_center(
-                    f"Pick a number from the list or 'M' menu.\nYou entered '{opponent}'"
-                )
+                text_center("Pick a number from the list or 'M' menu.")
+                text_center(f"You entered '{opponent}'")
             else:
                 game_title()
-                text_center(
-                    f"Pick a number from the list or 'M' menu.\nYou entered '{opponent}'"
-                )
+                text_center("Pick a number from the list or 'M' menu.")
+                text_center(f"You entered '{opponent}'")
 
         else:
             game_title()
             print()
-            text_center("No Hero Created. Please Go To Menu")
+            text_center(player)
             leave()
             game_menu(player, enemy_lst)
             break
@@ -283,7 +280,7 @@ def wins_lst(enemy_lst):
     lst_num = 1
     for row in enemy_lst:
         if row[3] == 0:
-            print(f"{lst_num}. {row[1]}")
+            print(f"\t\t{lst_num}. {row[1]}")
             lst_num += 1
         else:
             lst_num = 1
