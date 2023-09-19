@@ -2,6 +2,7 @@
 import random
 import os
 import time
+import textwrap
 import gspread
 from google.oauth2.service_account import Credentials
 import openai
@@ -69,8 +70,8 @@ def leave():
     Input used to pause program before user is leaving function.
     Asking the user to interact with enter before leaving.
     """
-    leave_input = input("MENU press Enter: ".rjust(80 // 2))
-    if leave_input is True:
+    input_center("MENU press Enter: ")
+    if input_center is True:
         clear_screen()
 
 
@@ -321,12 +322,18 @@ def character_input(player, enemy_lst):
             game_menu(player, enemy_lst)
 
     text_center("CREATE A NEW CHARACTER")
-    print()
-    name = input(f"\t\tNAME: ")
+    while True:
+        print()
+        name = input("\t\tNAME: ")
+        if name == "":
+            print("\t\t Please enter a NAME before next step")
+        else:
+            break
+        clear_screen
     time.sleep(1)
     while True:
         type_choice = input(
-            f"\t\t1. Human\n\t\t2. Elf\n\t\t3. Dwarf\n\t\t4. Orc\n\n\t\tTYPE: "
+            "\t\t1. Human\n\t\t2. Elf\n\t\t3. Dwarf\n\t\t4. Orc\n\n\t\tTYPE: "
         ).lower()
         time.sleep(1)
         clear_screen()
@@ -461,6 +468,9 @@ def add_stat_points(player, stat_points, enemy_lst):
 
 
 def not_enough_points(player, stat_points, enemy_lst):
+    """
+    Reduces repetition of code in add_stat_points.
+    """
     text_center(f"Not enough points left\nYou have {stat_points} left")
     add_stat_points(player, stat_points, enemy_lst)
 
@@ -498,7 +508,7 @@ def sword_battle(player, enemy_lst, enemy, num):
                 text_center(f"{player.name.upper()} lifts the sword in triumph")
                 text_center(f"{enemy.name.upper()} is defeated.")
 
-                battle_over = input_center(f"Press enter to continue the quest:")
+                input_center("Press enter to continue the quest:")
                 time.sleep(1)
                 dead = enemy_lst[num]
                 dead[3] = 0
@@ -522,10 +532,10 @@ def sword_battle(player, enemy_lst, enemy, num):
                     f"""{player.name.upper()} recieves a final blow.
                     {enemy.name.upper()} lifts sword in triumph"""
                 )
-                battle_over = input_center("The fight is over. Press enter: ")
+                input_center("The fight is over. Press enter: ")
                 clear_screen()
-                print(f"\n\n")
-                text_center(f"⚔⚔⚔---GAME OVER---⚔⚔⚔")
+                print("\n\n")
+                text_center("⚔⚔⚔---GAME OVER---⚔⚔⚔")
                 text_center(f"{player.name.upper()}‌")
                 leave()
                 main()
@@ -543,7 +553,8 @@ def story(player, enemy):
     ]
     message = f"""Set up with dialouge that leads to {player.name} the {player.char_type}
                and {enemy.name} the {enemy.char_type} drawing their weapons and comencing
-               a sword_battle against eachother. Maximum length 70 words"""
+               a sword_battle against eachother. 
+               Maximum length 70 words"""
     if message:
         messages.append(
             {"role": "user", "content": message},
@@ -551,9 +562,12 @@ def story(player, enemy):
         chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
 
     reply = chat.choices[0].message.content
-    print(f"\t\t⚔⚔⚔---LORD OF THE STRINGS---⚔⚔⚔\n\n{reply}")
+    wrapped_reply = textwrap.wrap(reply, width=62)
+    game_title()
+    print("\n".join(wrapped_reply))
     messages.append({"role": "assistant", "content": reply})
-    start_battle = input_center("\nPress Enter to start the battle")
+    print()
+    input_center("Press Enter to start the battle")
 
 
 def main():
