@@ -126,7 +126,14 @@ class CharacterStats:
     """
 
     def __init__(
-        self, char_type, name, strength_points, health_points, skill_points, armor
+        self,
+        char_type,
+        name,
+        strength_points,
+        health_points,
+        skill_points,
+        armor,
+        score,
     ):
         self.char_type = char_type
         self.name = name
@@ -134,16 +141,18 @@ class CharacterStats:
         self.health_points = health_points
         self.skill_points = skill_points
         self.armor = armor
+        self.score = score
 
     def __str__(self):
         player_title = (
             f"---{self.name.upper()} THE MIGHTY {self.char_type.upper()}---".center(62)
         )
-        abilities = f"""\t\t\t1. STRENGTH:\t{self.strength_points}
+        abilities = f"""\t\t\t ⚔-SCORE-⚔:\t{self.score}
+        \t\t1. STRENGTH:\t{self.strength_points}
         \t\t2. HEALTH:\t{self.health_points}
         \t\t3. SWORD SKILL:\t{self.skill_points}
         \t\t4. ARMOR:\t{self.armor}"""
-        player_string = f"{player_title}\n{abilities}"
+        player_string = f"{player_title}\n{self.score}\n{abilities}"
         return player_string
 
 
@@ -267,8 +276,9 @@ def get_enemy(enemy_lst, num):
     health_points = int(enemy_vals[3])
     skill_points = int(enemy_vals[4])
     armor = int(enemy_vals[5])
+    score = int(enemy_vals[6])
     enemy = CharacterStats(
-        char_type, name, strength_points, health_points, skill_points, armor
+        char_type, name, strength_points, health_points, skill_points, armor, score
     )
     return enemy, num
 
@@ -344,6 +354,7 @@ def character_input(player, enemy_lst):
             skill_points = 4 + dice(1)
             armor = 0
             stat_points = dice(2)
+            score = 0
             player = CharacterStats(
                 char_type,
                 name,
@@ -351,6 +362,7 @@ def character_input(player, enemy_lst):
                 health_points,
                 skill_points,
                 armor,
+                score,
             )
             break
         elif type_choice == "2" or type_choice == "elf":
@@ -360,6 +372,7 @@ def character_input(player, enemy_lst):
             skill_points = 4 + dice(1)
             armor = 0
             stat_points = dice(3)
+            score = 0
             player = CharacterStats(
                 char_type,
                 name,
@@ -367,6 +380,7 @@ def character_input(player, enemy_lst):
                 health_points,
                 skill_points,
                 armor,
+                score,
             )
             break
         elif type_choice == "3" or type_choice == "dwarf":
@@ -376,6 +390,7 @@ def character_input(player, enemy_lst):
             skill_points = 2 + dice(1)
             armor = dice(1)
             stat_points = dice(1)
+            score = 0
             player = CharacterStats(
                 char_type,
                 name,
@@ -383,6 +398,7 @@ def character_input(player, enemy_lst):
                 health_points,
                 skill_points,
                 armor,
+                score,
             )
             break
         elif type_choice == "4" or type_choice == "orc":
@@ -392,6 +408,7 @@ def character_input(player, enemy_lst):
             skill_points = dice(1)
             armor = 3
             stat_points = dice(2)
+            score = 0
             player = CharacterStats(
                 char_type,
                 name,
@@ -399,6 +416,7 @@ def character_input(player, enemy_lst):
                 health_points,
                 skill_points,
                 armor,
+                score,
             )
             break
         else:
@@ -482,9 +500,12 @@ def sword_battle(player, enemy_lst, enemy, num):
     total = 0
     clear_screen()
     text_center("⚔⚔⚔---Battle---⚔⚔⚔")
+    player_dice = 5 + round(player.score / 10)
+    enemy_dice = 5 + round(enemy.score / 10)
+
     while True:
-        attack = (player.skill_points + battle_dice(6, total)) - (
-            enemy.skill_points + battle_dice(6, total)
+        attack = (player.skill_points + battle_dice(player_dice, total)) - (
+            enemy.skill_points + battle_dice(enemy_dice, total)
         )
         time.sleep(1)
         if attack == 0:
@@ -514,6 +535,7 @@ def sword_battle(player, enemy_lst, enemy, num):
                 dead[3] = 0
                 enemy_lst.pop(num)
                 enemy_lst.append(dead)
+                player.score += 1
                 stat_points = 3
                 add_stat_points(player, stat_points, enemy_lst)
         if attack < 0:
@@ -528,17 +550,16 @@ def sword_battle(player, enemy_lst, enemy, num):
             player.health_points -= damage
             text_center(f"{player.name.upper()} now has {player.health_points} HP left")
             if player.health_points < 1:
-                text_center(
-                    f"""{player.name.upper()} recieves a final blow.
-                    {enemy.name.upper()} lifts sword in triumph"""
-                )
+                text_center(f"{player.name.upper()} recieves a final blow.")
+                text_center(f"{enemy.name.upper()} lifts sword in triumph")
                 input_center("The fight is over. Press enter: ")
                 clear_screen()
-                print("\n\n")
-                text_center("⚔⚔⚔---GAME OVER---⚔⚔⚔")
-                text_center(f"{player.name.upper()}‌")
+                player.score -= 1
+                player.health_points = 0
+                stat_points = 3
+                add_stat_points(player, stat_points, enemy_lst)
                 leave()
-                main()
+                game_menu()
                 break
 
 
