@@ -20,6 +20,7 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 ENEMY = GSPREAD_CLIENT.open("enemy").sheet1
 MOREENEMIES = GSPREAD_CLIENT.open("reset").sheet1
+LEADER_BOARD = GSPREAD_CLIENT.open("leaderboard").sheet1
 
 
 def configure():
@@ -119,6 +120,31 @@ def read_enemy_csv():
     return enemy_lst
 
 
+def read_leader_board_csv():
+    leader_board = LEADER_BOARD.get_all_values()[1:]
+    sorted_list = sorted(leader_board, key=lambda x: x[6])
+    leader_board = sorted_list
+    return leader_board
+
+
+def upload_to_leader_board(player, leader_board):
+    player_row = [
+        player.char_type,
+        player.name,
+        player.strength_points,
+        player.health_points,
+        player.skill_points,
+        player.armor,
+        player.score,
+    ]
+    if player.score >= 0:
+        LEADER_BOARD.append_row(player_row)
+    else:
+        text_center("You need a minimum of 5 score to enter list")
+
+    return leader_board
+
+
 class CharacterStats:
     """
     Object collects the character and selected enemy stats. __str__ used to make
@@ -166,7 +192,7 @@ def game_menu(player, enemy_lst):
     menu["\t\t3."] = "Choose Opponent"
     menu["\t\t4."] = "View Wins"
     menu["\t\t5."] = "Download New Opponents"
-    menu["\t\t6."] = "Reset Opponents To Start Settings"
+    menu["\t\t6."] = "Leader Board"
     menu["\t\t7."] = "Quit Game"
 
     while True:
@@ -203,10 +229,16 @@ def game_menu(player, enemy_lst):
             print("New Opponents Successfully Downloaded")
 
         elif selection == "6":
-            enemy_lst = read_enemy_csv()
+            leader_board = read_leader_board_csv()
+            upload_to_leader_board(player, leader_board)
+            player, enemy_lst, num = opponents_lst(player, leader_board)
+            enemy, num = get_enemy(enemy_lst, num)
+            story(player, enemy)
+            sword_battle(player, enemy_lst, enemy, num)
+            #    enemy_lst = read_enemy_csv()
         elif selection == "7":
             print("Goodbye!")
-            break
+            exit()
         else:
             print("Invalid option selected. Please try again.")
 
@@ -445,9 +477,13 @@ def add_stat_points(player, stat_points, enemy_lst):
             select_attribute = input_center("Choose ability: ")
 
         if select_attribute == "1":
-            activate_stat_points = int(
+            try:
+                activate_stat_points = int(
+                    input_center("How many points do you wish to add: ")
+                )
+            except ValueError:
+                text_center(f"Please choose a number 1-{stat_points}")
                 input_center("How many points do you wish to add: ")
-            )
 
             if activate_stat_points <= stat_points:
                 player.strength_points += activate_stat_points
@@ -521,7 +557,7 @@ def sword_battle(player, enemy_lst, enemy, num):
                 f"{player.name.upper()} strikes {enemy.name.upper()} who looses {damage} HP"
             )
             enemy.health_points -= damage
-            text_center(f"{enemy.name.upper()} now has {enemy.health_points} HP left")
+            text_center(f"{enemy.name.upper()} has {enemy.health_points} HP left")
             time.sleep(2)
             if enemy.health_points < 1:
                 game_title()
@@ -548,7 +584,7 @@ def sword_battle(player, enemy_lst, enemy, num):
                 f"{enemy.name.upper()} strikes {player.name.upper()} who looses {damage} HP"
             )
             player.health_points -= damage
-            text_center(f"{player.name.upper()} now has {player.health_points} HP left")
+            text_center(f"{player.name.upper()} has {player.health_points} HP left")
             if player.health_points < 1:
                 text_center(f"{player.name.upper()} recieves a final blow.")
                 text_center(f"{enemy.name.upper()} lifts sword in triumph")
