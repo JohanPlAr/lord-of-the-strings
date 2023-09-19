@@ -18,7 +18,7 @@ SCOPE = [
 CREDS = Credentials.from_service_account_file("creds.json")
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-SHEET = GSPREAD_CLIENT.open("enemy").sheet1
+ENEMY = GSPREAD_CLIENT.open("enemy").sheet1
 MOREENEMIES = GSPREAD_CLIENT.open("reset").sheet1
 
 
@@ -115,7 +115,7 @@ def read_enemy_csv():
     enemy_lst variable is passed along during the game and only reset to restart
     the settings
     """
-    enemy_lst = SHEET.get_all_values()[1:]
+    enemy_lst = ENEMY.get_all_values()[1:]
     return enemy_lst
 
 
@@ -596,7 +596,7 @@ def main():
     Controls calls for the api and game functions. Prints the "title-page"
     """
     configure()
-    enemy_lst = SHEET.get_all_values()[1:]
+    enemy_lst = ENEMY.get_all_values()[1:]
     game_title()
     text_center("A RPG-adventure game powered by the story-telling of chat-gpt")
     text_center("Now enter the realm")
