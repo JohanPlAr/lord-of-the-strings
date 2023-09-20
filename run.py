@@ -112,22 +112,29 @@ def battle_dice(num, total):
 
 def read_enemy_csv():
     """
-    Reads the google sheet file and storing it in the variable enemy_lst.
-    enemy_lst variable is passed along during the game and only reset to restart
-    the settings
+    Reads the google sheet file and stores it in the variable enemy_lst.
+    enemy_lst variable is passed along during the game.
     """
     enemy_lst = ENEMY.get_all_values()[1:]
     return enemy_lst
 
 
 def read_leader_board_csv():
+    """
+    Reads sorts and prints the leaderboard based on the score element
+    """
     leader_board = LEADER_BOARD.get_all_values()[1:]
-    sorted_list = sorted(leader_board, key=lambda x: x[6])
+    sorted_list = sorted(leader_board, key=lambda x: int(x[6]), reverse=True)
     leader_board = sorted_list
+
     return leader_board
 
 
 def upload_to_leader_board(player, leader_board):
+    """
+    Adds the player to the Leader Board CSV file if player has a
+    minimum of 5 in Score.
+    """
     player_row = [
         player.char_type,
         player.name,
@@ -137,10 +144,10 @@ def upload_to_leader_board(player, leader_board):
         player.armor,
         player.score,
     ]
-    if player.score >= 0:
+    if player.score > 4:
         LEADER_BOARD.append_row(player_row)
     else:
-        text_center("You need a minimum of 5 score to enter list")
+        text_center("You need a minimum of 5 in score to enter list")
 
     return leader_board
 
@@ -230,11 +237,14 @@ def game_menu(player, enemy_lst):
 
         elif selection == "6":
             leader_board = read_leader_board_csv()
-            upload_to_leader_board(player, leader_board)
-            player, enemy_lst, num = opponents_lst(player, leader_board)
-            enemy, num = get_enemy(enemy_lst, num)
-            story(player, enemy)
-            sword_battle(player, enemy_lst, enemy, num)
+            opponents_lst(player, leader_board)
+            if player != "Hero has not been created":
+                upload_to_leader_board(player, leader_board)
+                player, leader_board, num = opponents_lst(player, leader_board)
+                enemy, num = get_enemy(leader_board, num)
+                story(player, enemy)
+                sword_battle(player, leader_board, enemy, num)
+
             #    enemy_lst = read_enemy_csv()
         elif selection == "7":
             print("Goodbye!")
@@ -252,9 +262,10 @@ def opponents_lst(player, enemy_lst):
         two_col_lst = []
         x_num = 1
         columns = 2
+        print("\t\tNAME\tSCORE")
         for row in enemy_lst:
             if row[3] != 0:
-                two_col_lst.append(f"\t\t{x_num}. {row[1].upper()}")
+                two_col_lst.append(f"\t\t{x_num}. {row[1].upper()}\t{row[6]}")
                 x_num += 1
 
         for first, second in zip(two_col_lst[::columns], two_col_lst[1::columns]):
@@ -271,7 +282,7 @@ def opponents_lst(player, enemy_lst):
                 if row[3] != 0:
                     undef_opponent_lst.append(row)
             if opponent.lower() == "m":
-                game_menu(player, enemy_lst)
+                break
             try:
                 if int(opponent) - 1 in range(len(undef_opponent_lst)):
                     for row in undef_opponent_lst:
@@ -293,7 +304,6 @@ def opponents_lst(player, enemy_lst):
             print()
             text_center(player)
             leave()
-            game_menu(player, enemy_lst)
             break
 
 
@@ -361,7 +371,7 @@ def character_input(player, enemy_lst):
         text_center(f" WARNING! Creating a new character will erase {player.name}")
         continue_create = input_center("Do you still wish to continue y/n?")
         if continue_create.lower() != "y":
-            game_menu(player, enemy_lst)
+            break
 
     text_center("CREATE A NEW CHARACTER")
     while True:
@@ -459,7 +469,7 @@ def character_input(player, enemy_lst):
     return player
 
 
-def stat_points_input(stat_points):
+def stat_points_input(player, stat_points):
     """
     Handles ValueError for int(input())
     """
@@ -468,10 +478,16 @@ def stat_points_input(stat_points):
             activate_stat_points = int(
                 input_center("How many points do you wish to add: ")
             )
-            if activate_stat_points > stat_points:
-                text_center(f"Please choose a number 1-{stat_points}")
+            if activate_stat_points > stat_points or activate_stat_points < 0:
+                game_title()
+                text_center(f"You have {stat_points} points to improve your stats")
+                print(player)
+                text_center(f"Please choose a number 0-{stat_points}")
         except ValueError:
-            text_center(f"Please choose a number 1-{stat_points}")
+            game_title()
+            text_center(f"You have {stat_points} points to improve your stats")
+            print(player)
+            text_center(f"Please choose a number 0-{stat_points}")
             continue
         return int(activate_stat_points)
 
@@ -479,7 +495,7 @@ def stat_points_input(stat_points):
 def add_stat_points(player, stat_points, enemy_lst):
     """
     The final stage of the character creation which let's the user place stat_points
-    of their choice.
+    of their choice. Also stat points are added after a battle
     """
     while True:
         game_title()
@@ -494,28 +510,28 @@ def add_stat_points(player, stat_points, enemy_lst):
             select_attribute = input_center("Choose ability: ")
 
         if select_attribute == "1":
-            activate_stat_points = stat_points_input(stat_points)
+            activate_stat_points = stat_points_input(player, stat_points)
             if activate_stat_points <= stat_points:
                 player.strength_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
                 not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "2":
-            activate_stat_points = stat_points_input(stat_points)
+            activate_stat_points = stat_points_input(player, stat_points)
             if activate_stat_points <= stat_points:
                 player.health_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
                 not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "3":
-            activate_stat_points = stat_points_input(stat_points)
+            activate_stat_points = stat_points_input(player, stat_points)
             if activate_stat_points <= stat_points:
                 player.skill_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
                 not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "4":
-          activate_stat_points = stat_points_input(stat_points)
+            activate_stat_points = stat_points_input(player, stat_points)
             if activate_stat_points <= stat_points:
                 player.armor += activate_stat_points
                 stat_points -= activate_stat_points
@@ -599,7 +615,6 @@ def sword_battle(player, enemy_lst, enemy, num):
                 stat_points = 3
                 add_stat_points(player, stat_points, enemy_lst)
                 leave()
-                game_menu()
                 break
 
 
