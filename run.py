@@ -459,6 +459,23 @@ def character_input(player, enemy_lst):
     return player
 
 
+def stat_points_input(stat_points):
+    """
+    Handles ValueError for int(input())
+    """
+    while True:
+        try:
+            activate_stat_points = int(
+                input_center("How many points do you wish to add: ")
+            )
+            if activate_stat_points > stat_points:
+                text_center(f"Please choose a number 1-{stat_points}")
+        except ValueError:
+            text_center(f"Please choose a number 1-{stat_points}")
+            continue
+        return int(activate_stat_points)
+
+
 def add_stat_points(player, stat_points, enemy_lst):
     """
     The final stage of the character creation which let's the user place stat_points
@@ -477,41 +494,28 @@ def add_stat_points(player, stat_points, enemy_lst):
             select_attribute = input_center("Choose ability: ")
 
         if select_attribute == "1":
-            try:
-                activate_stat_points = int(
-                    input_center("How many points do you wish to add: ")
-                )
-            except ValueError:
-                text_center(f"Please choose a number 1-{stat_points}")
-                input_center("How many points do you wish to add: ")
-
+            activate_stat_points = stat_points_input(stat_points)
             if activate_stat_points <= stat_points:
                 player.strength_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
                 not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "2":
-            activate_stat_points = int(
-                input_center("How many points do you wish to add: ")
-            )
+            activate_stat_points = stat_points_input(stat_points)
             if activate_stat_points <= stat_points:
                 player.health_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
                 not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "3":
-            activate_stat_points = int(
-                input_center("How many points do you wish to add: ")
-            )
+            activate_stat_points = stat_points_input(stat_points)
             if activate_stat_points <= stat_points:
                 player.skill_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
                 not_enough_points(player, stat_points, enemy_lst)
         elif select_attribute == "4":
-            activate_stat_points = int(
-                input_center("How many points do you wish to add: ")
-            )
+          activate_stat_points = stat_points_input(stat_points)
             if activate_stat_points <= stat_points:
                 player.armor += activate_stat_points
                 stat_points -= activate_stat_points
