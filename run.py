@@ -185,7 +185,7 @@ class CharacterStats:
         \t\t2. HEALTH:\t{self.health_points}
         \t\t3. SWORD SKILL:\t{self.skill_points}
         \t\t4. ARMOR:\t{self.armor}"""
-        player_string = f"{player_title}\n{self.score}\n{abilities}"
+        player_string = f"{player_title}\n\n{abilities}"
         return player_string
 
 
@@ -215,39 +215,81 @@ def game_menu(player, enemy_lst, leader_board):
         if selection == "1":
             character_input(player, enemy_lst, leader_board)
         elif selection == "2":
-            game_title()
-            list_num = 0
-            player, enemy_lst, num = opponents_lst(
-                player, enemy_lst, leader_board, list_num
-            )
-            enemy, num = get_enemy(enemy_lst, num)
-            story(player, enemy)
-            sword_battle(player, enemy_lst, enemy, num, leader_board)
+            while True:
+                game_title()
+                if player != "Hero has not been created":
+                    list_num = 0
+                    player, enemy_lst, num = opponents_lst(
+                        player, enemy_lst, leader_board, list_num
+                    )
+                    enemy, num = get_enemy(enemy_lst, num)
+                    game_title()
+                    print(enemy)
+                    print()
+                    text_center("1. Fight or 2.Flight?")
+                    challenge = input_center("Choose wisely:")
+                    if challenge.lower() == "fight" or challenge == "1":
+                        story(player, enemy)
+                        sword_battle(player, enemy_lst, enemy, num, leader_board)
+                        break
+                    elif challenge.lower() == "flight" or challenge == "2":
+                        continue
+                    else:
+                        text_center('Wrong input, Please choose "1" or "2" to continue')
+                        time.sleep(3)
+            else:
+                game_title()
+                text_center(player)
+                leave()
+                game_menu(player, enemy_lst, leader_board)
         elif selection == "3":
-            list_num = 1
-            opponents_lst(player, enemy_lst, leader_board, list_num)
-            if player != "Hero has not been created":
-                player, enemy_lst, num = opponents_lst(
-                    player, enemy_lst, leader_board, list_num
-                )
-                enemy, num = get_enemy(leader_board, num)
-                story(player, enemy)
-                sword_battle(player, enemy_lst, enemy, num, leader_board)
-
-            #    enemy_lst = read_enemy_csv()
+            while True:
+                game_title()
+                if player != "Hero has not been created":
+                    list_num = 1
+                    opponents_lst(player, enemy_lst, leader_board, list_num)
+                    player, enemy_lst, num = opponents_lst(
+                        player, enemy_lst, leader_board, list_num
+                    )
+                    enemy, num = get_enemy(leader_board, num)
+                    game_title()
+                    print(enemy)
+                    print()
+                    text_center("1. Fight or 2.Flight?")
+                    challenge = input_center("Choose wisely:")
+                    if challenge.lower() == "fight" or challenge == "1":
+                        story(player, enemy)
+                        sword_battle(player, enemy_lst, enemy, num, leader_board)
+                    elif challenge.lower() == "flight" or challenge == "2":
+                        continue
+                    else:
+                        text_center("Wrong input, Please choose 1 or 2 to continue")
+                        time.sleep(3)
+                else:
+                    game_title()
+                    text_center(player)
+                    leave()
+                    break
+                    #    enemy_lst = read_enemy_csv()
 
         elif selection == "4":
             game_title()
             if player != "Hero has not been created":
                 print(player)
+                leave()
             else:
                 text_center(player)
                 leave()
-          
+
         elif selection == "5":
-            enemy_lst = download(enemy_lst)
-            print("New Opponents Successfully Downloaded")
-            leave()
+            new_enemy_lst = download(enemy_lst)
+            if len(new_enemy_lst) > len(enemy_lst):
+                enemy_lst = new_enemy_lst
+                text_center("New Opponents Successfully Downloaded")
+                leave()
+            else:
+                text_center("No new enemies available")
+                leave()
         elif selection == "6":
             game_title()
             wins_lst(enemy_lst)
@@ -255,7 +297,7 @@ def game_menu(player, enemy_lst, leader_board):
         elif selection == "7":
             upload_to_leader_board(player, leader_board)
             print(player)
-            text_center(Successful upload to Leader Board)
+            text_center("Successful upload to Leader Board")
             text_center("GOOD BYE!")
             exit()
         else:
@@ -265,7 +307,7 @@ def game_menu(player, enemy_lst, leader_board):
 
 def opponents_lst(player, enemy_lst, leader_board, list_num):
     """
-    Displays the undefeated enemies available for battle. Zip is used to display the list
+    Displays the enemies available for battle. Zip is used to display the list
     in two columns.
     """
     if list_num == 1:
@@ -285,37 +327,34 @@ def opponents_lst(player, enemy_lst, leader_board, list_num):
         for first, second in zip(two_col_lst[::columns], two_col_lst[1::columns]):
             print(f"\t\t{first: <13} \t{second: <13}")
 
-        if player != "Hero has not been created":
-            undef_opponent_lst = []
-            for row in print_list:
-                if row[3] != 0:
-                    undef_opponent_lst.append(row)
-            x_num = 0
+        undef_opponent_lst = []
+        for row in print_list:
+            if row[3] != 0:
+                undef_opponent_lst.append(row)
+        x_num = 0
 
-            try:
-                print()
-                opponent = input_center(
-                    "Please select an opponent or 'M' for back to menu: "
-                )
-                if opponent.lower() == "m":
-                    game_menu(player, enemy_lst, leader_board)
-                elif int(opponent) - 1 in range(len(undef_opponent_lst)):
-                    for row in undef_opponent_lst:
-                        x_num += 1
-                        if int(opponent) == x_num:
-                            num = int(opponent) - 1
-                            return player, enemy_lst, num
-                else:
-                    game_title()
-                    input_center("Else")
-                    text_center("Pick a number from the list or 'M' menu.")
-                    text_center(f"You entered '{opponent}'")
-
-            except ValueError:
+        try:
+            print()
+            opponent = input_center(
+                "Please select an opponent or 'M' for back to menu: "
+            )
+            if opponent.lower() == "m":
+                game_menu(player, enemy_lst, leader_board)
+            elif int(opponent) - 1 in range(len(undef_opponent_lst)):
+                for row in undef_opponent_lst:
+                    x_num += 1
+                    if int(opponent) == x_num:
+                        num = int(opponent) - 1
+                        return player, enemy_lst, num
+            else:
                 game_title()
-                input_center("ValueError")
                 text_center("Pick a number from the list or 'M' menu.")
                 text_center(f"You entered '{opponent}'")
+
+        except ValueError:
+            game_title()
+            text_center("Pick a number from the list or 'M' menu.")
+            text_center(f"You entered '{opponent}'")
 
         else:
             game_title()
@@ -376,7 +415,6 @@ def download(enemy_lst):
         if row[1] not in [sublist[1] for sublist in addenemy_lst]:
             addenemy_lst.append(row)
     enemy_lst = addenemy_lst
-    print(enemy_lst)
     return enemy_lst
 
 
