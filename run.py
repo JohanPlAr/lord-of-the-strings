@@ -1,155 +1,164 @@
-"""Providing random number functions."""
-import random
-import os
+# import random
+# import os
 import time
-import textwrap
-import gspread
-from google.oauth2.service_account import Credentials
-import openai
-from dotenv import load_dotenv
+
+# import textwrap
+
+# import gspread
+# from google.oauth2.service_account import Credentials
+# import openai
+# from dotenv import load_dotenv
+from google_spreads import (
+    read_enemy_csv,
+    read_leader_board_csv,
+    upload_to_leader_board,
+    download,
+)
+from dice_funcs import dice, battle_dice
+from print_functions import clear_screen, text_center, game_title, input_center, leave
+from ai_storyteller import configure, story
+
+# SCOPE = [
+#     "https://www.googleapis.com/auth/spreadsheets",
+#     "https://www.googleapis.com/auth/drive.file",
+#     "https://www.googleapis.com/auth/drive",
+# ]
+
+# CREDS = Credentials.from_service_account_file("creds.json")
+# SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+# GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+# ENEMY = GSPREAD_CLIENT.open("enemy").sheet1
+# MOREENEMIES = GSPREAD_CLIENT.open("reset").sheet1
+# LEADER_BOARD = GSPREAD_CLIENT.open("leaderboard").sheet1
 
 
-SCOPE = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive.file",
-    "https://www.googleapis.com/auth/drive",
-]
-
-CREDS = Credentials.from_service_account_file("creds.json")
-SCOPED_CREDS = CREDS.with_scopes(SCOPE)
-GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-ENEMY = GSPREAD_CLIENT.open("enemy").sheet1
-MOREENEMIES = GSPREAD_CLIENT.open("reset").sheet1
-LEADER_BOARD = GSPREAD_CLIENT.open("leaderboard").sheet1
+# def configure():
+#     """
+#     Fetches the API KEY from the .env file
+#     """
+#     load_dotenv()
+#     openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-def configure():
-    """
-    Fetches the API KEY from the .env file
-    """
-    load_dotenv()
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+# def clear_screen():
+#     """
+#     Clears the screen, cover the commands for Windows "nt" with "cls" and clear for else
+#     """
+#     os.system("cls" if os.name == "nt" else "clear")
 
 
-def clear_screen():
-    """
-    Clears the screen, cover the commands for Windows "nt" with "cls" and clear for else
-    """
-    os.system("cls" if os.name == "nt" else "clear")
+# def text_center(text):
+#     """
+#     Placing text in center of 62 Character line
+#     """
+#     txt = f"{text}"
+#     center_txt = txt.center(62)
+#     print(center_txt)
 
 
-def text_center(text):
-    """
-    Placing text in center of 62 Character line
-    """
-    txt = f"{text}"
-    center_txt = txt.center(62)
-    print(center_txt)
+# def input_center(text):
+#     """
+#     Placing input label in center of 62 Characters line
+#     """
+#     txt = f"{text}".upper()
+#     num = round(len(txt) / 2)
+#     center_input = input(txt.rjust(62 // 2 + num))
+#     return center_input
 
 
-def input_center(text):
-    """
-    Placing input label in center of 62 Characters line
-    """
-    txt = f"{text}".upper()
-    num = round(len(txt) / 2)
-    center_input = input(txt.rjust(62 // 2 + num))
-    return center_input
+# def game_title():
+#     """
+#     Clears the screen and prints the game title
+#     """
+#     clear_screen()
+#     text_center("⚔⚔⚔---LORD OF THE STRINGS---⚔⚔⚔")
+#     print()
 
 
-def game_title():
-    """
-    Clears the screen and prints the game title
-    """
-    clear_screen()
-    text_center("⚔⚔⚔---LORD OF THE STRINGS---⚔⚔⚔")
-    print()
+# def leave():
+#     """
+#     Input used to pause program before user is leaving function.
+#     Asking the user to interact with enter before leaving.
+#     """
+#     input_center("MENU press Enter: ")
+#     if input_center is True:
+#         clear_screen()
 
 
-def leave():
-    """
-    Input used to pause program before user is leaving function.
-    Asking the user to interact with enter before leaving.
-    """
-    input_center("MENU press Enter: ")
-    if input_center is True:
-        clear_screen()
+# def dice(num):
+#     """
+#     Simulates a six sided dice roll. The num parameter describes number of rolls
+#     being called
+#     """
+#     result = 0
+#     total = 0
+#     for _ in range(num):
+#         result = random.randint(1, 6)
+#         total += result
+#     return total
 
 
-def dice(num):
-    """
-    Simulates a six sided dice roll. The num parameter describes number of rolls
-    being called
-    """
-    result = 0
-    total = 0
-    for _ in range(num):
-        result = random.randint(1, 6)
-        total += result
-    return total
+# def battle_dice(num, total):
+#     """
+#     Simulates a six sided dice with the addition that all sixes generates two new
+#     rolls of dice. This function is only used in the sword_battle function to
+#     increase serendipity and allow higher uncertainty in the battles.
+#     """
+#     result = 0
+#     sixes = []
+#     for _ in range(num):
+#         result = random.randint(1, 6)
+#         total += result
+#         if result != 6:
+#             result += total
+#             num -= 1
+#         else:
+#             sixes.append(result)
+#     if len(sixes) > 0:
+#         battle_dice(num, total)
+#     return total
 
 
-def battle_dice(num, total):
-    """
-    Simulates a six sided dice with the addition that all sixes generates two new
-    rolls of dice. This function is only used in the sword_battle function to
-    increase serendipity and allow higher uncertainty in the battles.
-    """
-    result = 0
-    sixes = []
-    for _ in range(num):
-        result = random.randint(1, 6)
-        total += result
-        if result != 6:
-            result += total
-            num -= 1
-        else:
-            sixes.append(result)
-    if len(sixes) > 0:
-        battle_dice(num, total)
-    return total
+# def read_enemy_csv():
+#     """
+#     Reads the google sheet file and stores it in the variable enemy_lst.
+#     enemy_lst variable is passed along during the game.
+#     """
+#     enemy_lst = ENEMY.get_all_values()[1:]
+#     return enemy_lst
 
 
-def read_enemy_csv():
-    """
-    Reads the google sheet file and stores it in the variable enemy_lst.
-    enemy_lst variable is passed along during the game.
-    """
-    enemy_lst = ENEMY.get_all_values()[1:]
-    return enemy_lst
+# def read_leader_board_csv():
+#     """
+#     Reads sorts and prints the leaderboard based on the score element
+#     """
+#     leader_board = LEADER_BOARD.get_all_values()[1:]
+#     sorted_list = sorted(leader_board, key=lambda x: int(x[6]), reverse=True)
+#     leader_board = sorted_list
+
+#     return leader_board
 
 
-def read_leader_board_csv():
-    """
-    Reads sorts and prints the leaderboard based on the score element
-    """
-    leader_board = LEADER_BOARD.get_all_values()[1:]
-    sorted_list = sorted(leader_board, key=lambda x: int(x[6]), reverse=True)
-    leader_board = sorted_list
+# def upload_to_leader_board(player, leader_board):
+#     """
+#     Adds the player to the Leader Board CSV file if player has a
+#     minimum of 5 in Score.
+#     """
+#     player_row = [
+#         player.char_type,
+#         player.name,
+#         player.strength_points,
+#         player.health_points,
+#         player.skill_points,
+#         player.armor,
+#         player.score,
+#     ]
+#     if player.score > 4:
+#         LEADER_BOARD.append_row(player_row)
+#     else:
+#         text_center("You need a minimum of 5 in score to enter list")
 
-    return leader_board
-
-
-def upload_to_leader_board(player, leader_board):
-    """
-    Adds the player to the Leader Board CSV file if player has a
-    minimum of 5 in Score.
-    """
-    player_row = [
-        player.char_type,
-        player.name,
-        player.strength_points,
-        player.health_points,
-        player.skill_points,
-        player.armor,
-        player.score,
-    ]
-    if player.score > 4:
-        LEADER_BOARD.append_row(player_row)
-    else:
-        text_center("You need a minimum of 5 in score to enter list")
-
-    return leader_board
+#     return leader_board
 
 
 class CharacterStats:
@@ -270,7 +279,6 @@ def game_menu(player, enemy_lst, leader_board):
                     text_center(player)
                     leave()
                     break
-                    #    enemy_lst = read_enemy_csv()
 
         elif selection == "4":
             game_title()
@@ -315,6 +323,7 @@ def opponents_lst(player, enemy_lst, leader_board, list_num):
     else:
         print_list = enemy_lst
     while True:
+        game_title()
         two_col_lst = []
         x_num = 1
         columns = 2
@@ -333,32 +342,33 @@ def opponents_lst(player, enemy_lst, leader_board, list_num):
                 undef_opponent_lst.append(row)
         x_num = 0
 
+        print()
+        opponent = input_center("Please select an opponent or 'M' for back to menu: ")
+        if opponent.lower() == "m":
+            game_menu(player, enemy_lst, leader_board)
         try:
-            print()
-            opponent = input_center(
-                "Please select an opponent or 'M' for back to menu: "
-            )
-            if opponent.lower() == "m":
-                game_menu(player, enemy_lst, leader_board)
-            elif int(opponent) - 1 in range(len(undef_opponent_lst)):
+            opponent = int(opponent)
+            if opponent - 1 in range(len(undef_opponent_lst)):
+                num = opponent - 1
                 for row in undef_opponent_lst:
                     x_num += 1
-                    if int(opponent) == x_num:
-                        num = int(opponent) - 1
+                    if opponent == x_num:
                         return player, enemy_lst, num
+
             else:
                 game_title()
                 text_center("Pick a number from the list or 'M' menu.")
-                text_center(f"You entered '{opponent}'")
+                input_center(f"You entered '{opponent}'")
 
         except ValueError:
             game_title()
             text_center("Pick a number from the list or 'M' menu.")
-            text_center(f"You entered '{opponent}'")
+            input_center(f"You entered '{opponent}'")
 
         else:
             game_title()
             print()
+
             text_center(player)
             leave()
             game_menu(player, enemy_lst, leader_board)
@@ -397,25 +407,25 @@ def wins_lst(enemy_lst):
             lst_num = 1
 
 
-def download(enemy_lst):
-    """
-    Updates the enemy_lst with new enemies. The addenemy_lst list is crosschecked against enemy_lst
-    and duplicates are removed. The enemy_lst is added to the bottom of addenemy_lst and then
-    redefined to equal the updated addenemy_lst before returned.
-    """
-    addenemy_lst = MOREENEMIES.get_all_values()[1:]
-    list_num = 0
-    for row in addenemy_lst:
-        list_num += 1
-        if row[1] in [sublist[1] for sublist in enemy_lst]:
-            addenemy_lst.pop(list_num - 1)
-    list_num = 0
-    for row in enemy_lst:
-        list_num += 1
-        if row[1] not in [sublist[1] for sublist in addenemy_lst]:
-            addenemy_lst.append(row)
-    enemy_lst = addenemy_lst
-    return enemy_lst
+# def download(enemy_lst):
+#     """
+#     Updates the enemy_lst with new enemies. The addenemy_lst list is crosschecked against enemy_lst
+#     and duplicates are removed. The enemy_lst is added to the bottom of addenemy_lst and then
+#     redefined to equal the updated addenemy_lst before returned.
+#     """
+#     addenemy_lst = MOREENEMIES.get_all_values()[1:]
+#     list_num = 0
+#     for row in addenemy_lst:
+#         list_num += 1
+#         if row[1] in [sublist[1] for sublist in enemy_lst]:
+#             addenemy_lst.pop(list_num - 1)
+#     list_num = 0
+#     for row in enemy_lst:
+#         list_num += 1
+#         if row[1] not in [sublist[1] for sublist in addenemy_lst]:
+#             addenemy_lst.append(row)
+#     enemy_lst = addenemy_lst
+#     return enemy_lst
 
 
 def character_input(player, enemy_lst, leader_board):
@@ -674,32 +684,32 @@ def sword_battle(player, enemy_lst, enemy, num, leader_board):
                 break
 
 
-def story(player, enemy):
-    """
-    Api call to chat-gpt asking it to reply to a string prepared with type and name.
-    Length limit of the reply is included in the string
-    """
-    clear_screen()
-    messages = [
-        {"role": "system", "content": "You are a Storyteller"},
-    ]
-    message = f"""Set up with dialouge that leads to {player.name} the {player.char_type}
-               and {enemy.name} the {enemy.char_type} drawing their weapons and comencing
-               a sword_battle against eachother. 
-               Maximum length 70 words"""
-    if message:
-        messages.append(
-            {"role": "user", "content": message},
-        )
-        chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
+# def story(player, enemy):
+#     """
+#     Api call to chat-gpt asking it to reply to a string prepared with type and name.
+#     Length limit of the reply is included in the string
+#     """
+#     clear_screen()
+#     messages = [
+#         {"role": "system", "content": "You are a Storyteller"},
+#     ]
+#     message = f"""Set up with dialouge that leads to {player.name} the {player.char_type}
+#                and {enemy.name} the {enemy.char_type} drawing their weapons and comencing
+#                a sword_battle against eachother.
+#                Maximum length 70 words"""
+#     if message:
+#         messages.append(
+#             {"role": "user", "content": message},
+#         )
+#         chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
 
-    reply = chat.choices[0].message.content
-    wrapped_reply = textwrap.wrap(reply, width=62)
-    game_title()
-    print("\n".join(wrapped_reply))
-    messages.append({"role": "assistant", "content": reply})
-    print()
-    input_center("Press Enter to start the battle")
+#     reply = chat.choices[0].message.content
+#     wrapped_reply = textwrap.wrap(reply, width=62)
+#     game_title()
+#     print("\n".join(wrapped_reply))
+#     messages.append({"role": "assistant", "content": reply})
+#     print()
+#     input_center("Press Enter to start the battle")
 
 
 def main():
@@ -707,7 +717,7 @@ def main():
     Controls calls for the api and game functions. Prints the "title-page"
     """
     configure()
-    enemy_lst = ENEMY.get_all_values()[1:]
+    enemy_lst = read_enemy_csv()
     leader_board = read_leader_board_csv()
     game_title()
     text_center("A RPG-adventure game")
