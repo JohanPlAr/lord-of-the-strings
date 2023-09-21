@@ -189,7 +189,7 @@ class CharacterStats:
         return player_string
 
 
-def game_menu(player, enemy_lst):
+def game_menu(player, enemy_lst, leader_board):
     """
     Holds the Game Menu which allows user to choose activities
     """
@@ -213,7 +213,7 @@ def game_menu(player, enemy_lst):
         print()
         selection = input_center("Please select an option: ")
         if selection == "1":
-            character_input(player, enemy_lst)
+            character_input(player, enemy_lst, leader_board)
         elif selection == "2":
             game_title()
             if player != "Hero has not been created":
@@ -223,10 +223,13 @@ def game_menu(player, enemy_lst):
             leave()
         elif selection == "3":
             game_title()
-            player, enemy_lst, num = opponents_lst(player, enemy_lst)
+            list_num = 0
+            player, enemy_lst, num = opponents_lst(
+                player, enemy_lst, leader_board, list_num
+            )
             enemy, num = get_enemy(enemy_lst, num)
             story(player, enemy)
-            sword_battle(player, enemy_lst, enemy, num)
+            sword_battle(player, enemy_lst, enemy, num, leader_board)
         elif selection == "4":
             game_title()
             wins_lst(enemy_lst)
@@ -236,66 +239,77 @@ def game_menu(player, enemy_lst):
             print("New Opponents Successfully Downloaded")
 
         elif selection == "6":
-            leader_board = read_leader_board_csv()
-            opponents_lst(player, leader_board)
+            list_num = 1
+            opponents_lst(player, enemy_lst, leader_board, list_num)
             if player != "Hero has not been created":
-                upload_to_leader_board(player, leader_board)
-                player, leader_board, num = opponents_lst(player, leader_board)
+                player, enemy_lst, num = opponents_lst(
+                    player, enemy_lst, leader_board, list_num
+                )
                 enemy, num = get_enemy(leader_board, num)
                 story(player, enemy)
-                sword_battle(player, leader_board, enemy, num)
+                sword_battle(player, enemy_lst, enemy, num, leader_board)
 
             #    enemy_lst = read_enemy_csv()
         elif selection == "7":
             print("Goodbye!")
+            upload_to_leader_board(player, leader_board)
             exit()
         else:
-            print("Invalid option selected. Please try again.")
+            text_center("Invalid option selected. Please try again.")
+            leave()
 
 
-def opponents_lst(player, enemy_lst):
+def opponents_lst(player, enemy_lst, leader_board, list_num):
     """
-    Displays the undefeated enemies available for battle. zip is used to display the list
+    Displays the undefeated enemies available for battle. Zip is used to display the list
     in two columns.
     """
+    if list_num == 1:
+        print_list = leader_board
+    else:
+        print_list = enemy_lst
     while True:
         two_col_lst = []
         x_num = 1
         columns = 2
-        print("\t\tNAME\tSCORE")
-        for row in enemy_lst:
+        text_center("  NAME\t\tSCORE\t   NAME\t\tSCORE")
+        for row in print_list:
             if row[3] != 0:
-                two_col_lst.append(f"\t\t{x_num}. {row[1].upper()}\t{row[6]}")
+                two_col_lst.append(f"{x_num}. {row[1].upper()} \t{row[6]}")
                 x_num += 1
 
         for first, second in zip(two_col_lst[::columns], two_col_lst[1::columns]):
-            print(f"{first: <13}{second: <13}")
+            print(f"\t\t{first: <13} \t{second: <13}")
 
         if player != "Hero has not been created":
-            print()
-            opponent = input_center(
-                "Please select an opponent or 'M' for back to menu: "
-            )
-            x_num = 0
             undef_opponent_lst = []
-            for row in enemy_lst:
+            for row in print_list:
                 if row[3] != 0:
                     undef_opponent_lst.append(row)
-            if opponent.lower() == "m":
-                break
+            x_num = 0
+
             try:
-                if int(opponent) - 1 in range(len(undef_opponent_lst)):
+                print()
+                opponent = input_center(
+                    "Please select an opponent or 'M' for back to menu: "
+                )
+                if opponent.lower() == "m":
+                    game_menu(player, enemy_lst, leader_board)
+                elif int(opponent) - 1 in range(len(undef_opponent_lst)):
                     for row in undef_opponent_lst:
                         x_num += 1
                         if int(opponent) == x_num:
                             num = int(opponent) - 1
                             return player, enemy_lst, num
+                else:
+                    game_title()
+                    input_center("Else")
+                    text_center("Pick a number from the list or 'M' menu.")
+                    text_center(f"You entered '{opponent}'")
+
             except ValueError:
                 game_title()
-                text_center("Pick a number from the list or 'M' menu.")
-                text_center(f"You entered '{opponent}'")
-            else:
-                game_title()
+                input_center("ValueError")
                 text_center("Pick a number from the list or 'M' menu.")
                 text_center(f"You entered '{opponent}'")
 
@@ -304,6 +318,7 @@ def opponents_lst(player, enemy_lst):
             print()
             text_center(player)
             leave()
+            game_menu(player, enemy_lst, leader_board)
             break
 
 
@@ -361,7 +376,7 @@ def download(enemy_lst):
     return enemy_lst
 
 
-def character_input(player, enemy_lst):
+def character_input(player, enemy_lst, leader_board):
     """
     Handles the user input to create the player character. Automates unique
     stats for the types human/elf/dwarf/orc.
@@ -371,18 +386,17 @@ def character_input(player, enemy_lst):
         text_center(f" WARNING! Creating a new character will erase {player.name}")
         continue_create = input_center("Do you still wish to continue y/n?")
         if continue_create.lower() != "y":
-            break
+            game_menu(player, enemy_lst, leader_board)
 
     text_center("CREATE A NEW CHARACTER")
     while True:
         print()
         name = input("\t\tNAME: ")
+        print()
         if name == "":
             print("\t\t Please enter a NAME before next step")
         else:
             break
-        clear_screen
-    time.sleep(1)
     while True:
         type_choice = input(
             "\t\t1. Human\n\t\t2. Elf\n\t\t3. Dwarf\n\t\t4. Orc\n\n\t\tTYPE: "
@@ -465,7 +479,7 @@ def character_input(player, enemy_lst):
             text_center(
                 f"Choices available are Human/Elf/Dwarf/Orc\nYou entered '{type_choice}'"
             )
-    add_stat_points(player, stat_points, enemy_lst)
+    add_stat_points(player, stat_points, enemy_lst, leader_board)
     return player
 
 
@@ -492,7 +506,7 @@ def stat_points_input(player, stat_points):
         return int(activate_stat_points)
 
 
-def add_stat_points(player, stat_points, enemy_lst):
+def add_stat_points(player, stat_points, enemy_lst, leader_board):
     """
     The final stage of the character creation which let's the user place stat_points
     of their choice. Also stat points are added after a battle
@@ -503,7 +517,7 @@ def add_stat_points(player, stat_points, enemy_lst):
             text_center(f"You have {stat_points} points to add to your stats")
             print(player)
             leave()
-            game_menu(player, enemy_lst)
+            game_menu(player, enemy_lst, leader_board)
         text_center(f"You have {stat_points} points to add to your abilities")
         print(player)
         if stat_points > 0:
@@ -515,41 +529,41 @@ def add_stat_points(player, stat_points, enemy_lst):
                 player.strength_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
-                not_enough_points(player, stat_points, enemy_lst)
+                not_enough_points(player, stat_points, enemy_lst, leader_board)
         elif select_attribute == "2":
             activate_stat_points = stat_points_input(player, stat_points)
             if activate_stat_points <= stat_points:
                 player.health_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
-                not_enough_points(player, stat_points, enemy_lst)
+                not_enough_points(player, stat_points, enemy_lst, leader_board)
         elif select_attribute == "3":
             activate_stat_points = stat_points_input(player, stat_points)
             if activate_stat_points <= stat_points:
                 player.skill_points += activate_stat_points
                 stat_points -= activate_stat_points
             else:
-                not_enough_points(player, stat_points, enemy_lst)
+                not_enough_points(player, stat_points, enemy_lst, leader_board)
         elif select_attribute == "4":
             activate_stat_points = stat_points_input(player, stat_points)
             if activate_stat_points <= stat_points:
                 player.armor += activate_stat_points
                 stat_points -= activate_stat_points
             else:
-                not_enough_points(player, stat_points, enemy_lst)
+                not_enough_points(player, stat_points, enemy_lst, leader_board)
         else:
             print(f"Choices available are 1,2,3,4\nYou entered '{select_attribute}'")
 
 
-def not_enough_points(player, stat_points, enemy_lst):
+def not_enough_points(player, stat_points, enemy_lst, leader_board):
     """
     Reduces repetition of code in add_stat_points.
     """
     text_center(f"Not enough points left\nYou have {stat_points} left")
-    add_stat_points(player, stat_points, enemy_lst)
+    add_stat_points(player, stat_points, enemy_lst, leader_board)
 
 
-def sword_battle(player, enemy_lst, enemy, num):
+def sword_battle(player, enemy_lst, enemy, num, leader_board):
     """
     handles the battle logic between player and selected opponent.
     """
@@ -593,7 +607,7 @@ def sword_battle(player, enemy_lst, enemy, num):
                 enemy_lst.append(dead)
                 player.score += 1
                 stat_points = 3
-                add_stat_points(player, stat_points, enemy_lst)
+                add_stat_points(player, stat_points, enemy_lst, leader_board)
         if attack < 0:
             damage = (enemy.strength_points + dice(1)) - round(
                 (player.armor + dice(1) + (player.skill_points / 2))
@@ -613,7 +627,7 @@ def sword_battle(player, enemy_lst, enemy, num):
                 player.score -= 1
                 player.health_points = 0
                 stat_points = 3
-                add_stat_points(player, stat_points, enemy_lst)
+                add_stat_points(player, stat_points, enemy_lst, leader_board)
                 leave()
                 break
 
@@ -652,15 +666,17 @@ def main():
     """
     configure()
     enemy_lst = ENEMY.get_all_values()[1:]
+    leader_board = read_leader_board_csv()
     game_title()
-    text_center("A RPG-adventure game powered by the story-telling of chat-gpt")
+    text_center("A RPG-adventure game")
+    text_center("Powered by the story-telling of chat-gpt\n")
     text_center("Now enter the realm")
     leave()
     clear_screen()
     player = "Hero has not been created"
     time.sleep(1)
 
-    game_menu(player, enemy_lst)
+    game_menu(player, enemy_lst, leader_board)
 
 
 main()
