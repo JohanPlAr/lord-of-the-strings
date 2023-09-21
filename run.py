@@ -195,11 +195,11 @@ def game_menu(player, enemy_lst, leader_board):
     """
     menu = {}
     menu["\t\t1."] = "Create New Hero"
-    menu["\t\t2."] = "View Stats"
-    menu["\t\t3."] = "Choose Opponent"
-    menu["\t\t4."] = "View Wins"
+    menu["\t\t2."] = "Choose Opponent"
+    menu["\t\t3."] = "Leader Board"
+    menu["\t\t4."] = "View Stats"
     menu["\t\t5."] = "Download New Opponents"
-    menu["\t\t6."] = "Leader Board"
+    menu["\t\t6."] = "View Wins"
     menu["\t\t7."] = "Quit Game"
 
     while True:
@@ -216,13 +216,6 @@ def game_menu(player, enemy_lst, leader_board):
             character_input(player, enemy_lst, leader_board)
         elif selection == "2":
             game_title()
-            if player != "Hero has not been created":
-                print(player)
-            else:
-                text_center(player)
-            leave()
-        elif selection == "3":
-            game_title()
             list_num = 0
             player, enemy_lst, num = opponents_lst(
                 player, enemy_lst, leader_board, list_num
@@ -230,15 +223,7 @@ def game_menu(player, enemy_lst, leader_board):
             enemy, num = get_enemy(enemy_lst, num)
             story(player, enemy)
             sword_battle(player, enemy_lst, enemy, num, leader_board)
-        elif selection == "4":
-            game_title()
-            wins_lst(enemy_lst)
-            leave()
-        elif selection == "5":
-            enemy_lst = download(enemy_lst)
-            print("New Opponents Successfully Downloaded")
-
-        elif selection == "6":
+        elif selection == "3":
             list_num = 1
             opponents_lst(player, enemy_lst, leader_board, list_num)
             if player != "Hero has not been created":
@@ -250,9 +235,28 @@ def game_menu(player, enemy_lst, leader_board):
                 sword_battle(player, enemy_lst, enemy, num, leader_board)
 
             #    enemy_lst = read_enemy_csv()
+
+        elif selection == "4":
+            game_title()
+            if player != "Hero has not been created":
+                print(player)
+            else:
+                text_center(player)
+                leave()
+          
+        elif selection == "5":
+            enemy_lst = download(enemy_lst)
+            print("New Opponents Successfully Downloaded")
+            leave()
+        elif selection == "6":
+            game_title()
+            wins_lst(enemy_lst)
+            leave()
         elif selection == "7":
-            print("Goodbye!")
             upload_to_leader_board(player, leader_board)
+            print(player)
+            text_center(Successful upload to Leader Board)
+            text_center("GOOD BYE!")
             exit()
         else:
             text_center("Invalid option selected. Please try again.")
