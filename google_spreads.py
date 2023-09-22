@@ -3,7 +3,7 @@ Handles the API calls and csv reads
 """
 import gspread
 from google.oauth2.service_account import Credentials
-from print_functions import text_center
+from print_functions import text_center, game_title
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -41,8 +41,9 @@ def read_leader_board_csv():
 
 def upload_to_leader_board(player, leader_board):
     """
-    Adds the player to the Leader Board CSV file if player has a
-    minimum of 5 in Score.
+    Adds the player to the Leader Board CSV file if player
+    reaches the top 20. Only adds to the csv if player has
+    a top 20 score.
     """
     player_row = [
         player.char_type,
@@ -53,10 +54,28 @@ def upload_to_leader_board(player, leader_board):
         player.armor,
         player.score,
     ]
-    if player.score > 4:
-        LEADER_BOARD.append_row(player_row)
+    leader_board.append(player_row)
+    sorted_list = sorted(leader_board, key=lambda x: int(x[6]), reverse=True)
+    leader_board = sorted_list
+    num = 0
+    if len(sorted_list) > 19:
+        for row in range(19):
+            row = sorted_list[num]
+            num += 1
+            if player.score > int(row[6]):
+                game_title()
+                LEADER_BOARD.append_row(player_row)
+                text_center(f"Congratulations you reached number {num}!")
+                break
     else:
-        text_center("You need a minimum of 5 in score to enter list")
+        for row in range(len(sorted_list)):
+            row = sorted_list[num]
+            num += 1
+            if player.score > int(row[6]):
+                game_title()
+                LEADER_BOARD.append_row(player_row)
+                text_center(f"Congratulations you reached number {num}!")
+                break
 
     return leader_board
 
