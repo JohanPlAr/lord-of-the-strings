@@ -218,6 +218,9 @@ def opponents_lst(player, enemy_lst, leader_board, list_num):
 
         for first, second in zip(two_col_lst[::columns], two_col_lst[1::columns]):
             print(f"\t\t{first: <13} \t{second: <13}")
+        for first in two_col_lst[-1::columns]:
+            if len(two_col_lst) % 2 == 1:
+                print(f"\t\t{first}")
 
         undef_opponent_lst = []
         for row in print_list:
