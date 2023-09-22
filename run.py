@@ -117,7 +117,6 @@ def game_menu(player, enemy_lst, leader_board):
                 game_title()
                 if player != "Hero has not been created":
                     list_num = 1
-                    opponents_lst(player, enemy_lst, leader_board, list_num)
                     player, enemy_lst, num = opponents_lst(
                         player, enemy_lst, leader_board, list_num
                     )
@@ -168,10 +167,14 @@ def game_menu(player, enemy_lst, leader_board):
             text_center("GAME INFO")
             long_text(
                 """Customize your character. HUMAN/ELF/DWARF/ORC have different \
-strengths. A story is printed when entering a battle.Improve your character with \
+strengths. A story is printed when entering the battle. Improve your character with \
 recieved statpoints. Battle the built in opponents or high score players and reach \
-the Leader Board top 20. Hero Uploads when leaving the game.       
-                """
+the Leader Board top 20. Hero Uploads when leaving the game.
+
+The battle is automated based on the player abilities and dice results.\
+Sword Skill, Score and dice results affects who wins the round. Strength and \
+Armor affects the damage. Health Points are reduced until 0 which marks a \
+lost battle."""
             )
             print()
             text_center("Enjoy playing Lord of the Strings")
@@ -207,6 +210,7 @@ def opponents_lst(player, enemy_lst, leader_board, list_num):
         x_num = 1
         columns = 2
         text_center("  NAME\t\tSCORE\t   NAME\t\tSCORE")
+
         for row in print_list:
             if row[3] != 0:
                 two_col_lst.append(f"{x_num}. {row[1].upper()} \t{row[6]}")
@@ -225,6 +229,7 @@ def opponents_lst(player, enemy_lst, leader_board, list_num):
         opponent = input_center("Please select an opponent or 'M' for back to menu: ")
         if opponent.lower() == "m":
             game_menu(player, enemy_lst, leader_board)
+
         try:
             opponent = int(opponent)
             if opponent - 1 in range(len(undef_opponent_lst)):
@@ -236,16 +241,17 @@ def opponents_lst(player, enemy_lst, leader_board, list_num):
 
             else:
                 text_center("Pick a number from the list or 'M' menu.")
-                input_center(f"You entered '{opponent}'")
+                text_center(f"You entered '{opponent}'")
+                input_center("Enter to continue")
 
         except ValueError:
             text_center("Pick a number from the list or 'M' menu.")
-            input_center(f"You entered '{opponent}'")
+            text_center(f"You entered '{opponent}'")
+            input_center("Enter to continue")
 
         else:
             game_title()
             print()
-
             text_center(player)
             leave()
             game_menu(player, enemy_lst, leader_board)
@@ -296,13 +302,17 @@ def character_input(player, enemy_lst, leader_board):
         if continue_create.lower() != "y":
             game_menu(player, enemy_lst, leader_board)
 
-    text_center("CREATE A NEW CHARACTER")
+    text_center("CREATE NEW CHARACTER")
     while True:
         print()
         name = input("\t\tNAME: ")
         print()
-        if name == "":
-            print("\t\t Please enter a NAME before next step")
+        if len(name) < 3 or len(name) > 10:
+            game_title()
+            text_center("Name length allowed: 2-10 characters")
+            input_center("Enter to continue: ")
+            game_title()
+            text_center("CREATE NEW CHARACTER")
         else:
             break
     while True:
