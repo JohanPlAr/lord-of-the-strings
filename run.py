@@ -1,3 +1,6 @@
+"""
+Holds main, menu, character creation and game functions. 
+"""
 import time
 
 from google_spreads import (
@@ -66,7 +69,7 @@ def game_menu(player, enemy_lst, leader_board):
     menu["\t\t4."] = "View Stats"
     menu["\t\t5."] = "Download New Opponents"
     menu["\t\t6."] = "View Wins"
-    menu["\t\t7."] = "Rules"
+    menu["\t\t7."] = "Game Info"
     menu["\t\t8."] = "Quit Game"
 
     while True:
@@ -162,8 +165,17 @@ def game_menu(player, enemy_lst, leader_board):
             leave()
         elif selection == "7":
             game_title()
-            text_center("RULES")
-
+            text_center("GAME INFO")
+            long_text(
+                """Customize your character. HUMAN/ELF/DWARF/ORC have different \
+strengths. A story is printed when entering a battle.Improve your character with \
+recieved statpoints. Battle the built in opponents or high score players and reach \
+the Leader Board top 20. Hero Uploads when leaving the game.       
+                """
+            )
+            print()
+            text_center("Enjoy playing Lord of the Strings")
+            leave()
         elif selection == "8":
             upload_player = input_center(f"Upload {player.name} to leader board? y/n: ")
             if upload_player.lower() == "y":
