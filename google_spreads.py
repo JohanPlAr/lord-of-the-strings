@@ -65,7 +65,7 @@ def upload_to_leader_board(player, leader_board):
             if player.score > int(row[6]):
                 game_title()
                 LEADER_BOARD.append_row(player_row)
-                text_center(f"Congratulations you reached number {num}!")
+                text_center(f"Congratulations you reached number {num-1}!")
                 break
     else:
         for row in range(len(sorted_list)):

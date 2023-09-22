@@ -126,7 +126,7 @@ def game_menu(player, enemy_lst, leader_board):
                     print(enemy)
                     print()
                     text_center("1. Fight or 2.Flight?")
-                    challenge = input_center("Choose wisely:")
+                    challenge = input_center("Choose wisely: ")
                     if challenge.lower() == "fight" or challenge == "1":
                         story(player, enemy)
                         sword_battle(player, enemy_lst, enemy, num, leader_board)
@@ -496,7 +496,7 @@ def sword_battle(player, enemy_lst, enemy, num, leader_board):
             if damage < 1:
                 damage = 1
             text_center(
-                f"{player.name.upper()} strikes {enemy.name.upper()} who looses {damage} HP"
+                f"{player.name.upper()} strikes {enemy.name.upper()} who loses {damage} HP"
             )
             enemy.health_points -= damage
             text_center(f"{enemy.name.upper()} has {enemy.health_points} HP left")
@@ -523,7 +523,7 @@ def sword_battle(player, enemy_lst, enemy, num, leader_board):
             if damage < 1:
                 damage = 1
             text_center(
-                f"{enemy.name.upper()} strikes {player.name.upper()} who looses {damage} HP"
+                f"{enemy.name.upper()} strikes {player.name.upper()} who loses {damage} HP"
             )
             player.health_points -= damage
             text_center(f"{player.name.upper()} has {player.health_points} HP left")
