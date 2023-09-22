@@ -7,7 +7,14 @@ from google_spreads import (
     download,
 )
 from dice_funcs import dice, battle_dice
-from print_functions import clear_screen, text_center, game_title, input_center, leave
+from print_functions import (
+    clear_screen,
+    text_center,
+    game_title,
+    input_center,
+    leave,
+    long_text,
+)
 from ai_storyteller import configure, story
 
 
@@ -59,7 +66,8 @@ def game_menu(player, enemy_lst, leader_board):
     menu["\t\t4."] = "View Stats"
     menu["\t\t5."] = "Download New Opponents"
     menu["\t\t6."] = "View Wins"
-    menu["\t\t7."] = "Quit Game"
+    menu["\t\t7."] = "Rules"
+    menu["\t\t8."] = "Quit Game"
 
     while True:
         game_title()
@@ -74,9 +82,9 @@ def game_menu(player, enemy_lst, leader_board):
         if selection == "1":
             character_input(player, enemy_lst, leader_board)
         elif selection == "2":
-            while True:
-                game_title()
-                if player != "Hero has not been created":
+            if player != "Hero has not been created":
+                while True:
+                    game_title()
                     list_num = 0
                     player, enemy_lst, num = opponents_lst(
                         player, enemy_lst, leader_board, list_num
@@ -153,6 +161,10 @@ def game_menu(player, enemy_lst, leader_board):
             wins_lst(enemy_lst)
             leave()
         elif selection == "7":
+            game_title()
+            text_center(RULES)
+
+        elif selection == "8":
             upload_to_leader_board(player, leader_board)
             print(player)
             text_center("Successful upload to Leader Board")

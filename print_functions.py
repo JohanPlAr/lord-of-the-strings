@@ -2,6 +2,7 @@
 The functions in this file handles printing operations
 """
 import os
+import textwrap
 
 
 def clear_screen():
@@ -18,6 +19,14 @@ def text_center(text):
     txt = f"{text}"
     center_txt = txt.center(62)
     print(center_txt)
+
+
+def long_text(txt):
+    """
+    Breaks text line after 62 characters. Used for longer text prints.
+    """
+    wrapped_txt = textwrap.wrap(txt, width=62)
+    print("\n".join(wrapped_txt))
 
 
 def input_center(text):

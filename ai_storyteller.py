@@ -1,10 +1,9 @@
 """
 """
 import os
-import textwrap
 import openai
 from dotenv import load_dotenv
-from print_functions import game_title, clear_screen, input_center
+from print_functions import game_title, clear_screen, input_center, long_text
 
 
 def configure():
@@ -35,9 +34,8 @@ def story(player, enemy):
         chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
 
     reply = chat.choices[0].message.content
-    wrapped_reply = textwrap.wrap(reply, width=62)
     game_title()
-    print("\n".join(wrapped_reply))
+    long_text(reply)
     messages.append({"role": "assistant", "content": reply})
     print()
     input_center("Press Enter to start the battle")
