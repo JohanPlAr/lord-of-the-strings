@@ -40,21 +40,25 @@ The site can be accessed by this [link](https://lord-of-the-strings-1fb32555cef6
 
 #### Create New Hero
 
-![Create New Hero](documentation/create-new hero.png)
+![Create New Hero](documentation/create-new-hero.png)
 
 - Enter your Heros name and type Human/Elf/Dwarf/Orc. The initial abilitiy stats Strength/Health/Sword Skill/Armor will be automatically generated based on what type of character chosen. Then extra ability points will be added for the user to deploy as preferred. A Unique Hero is created each time
 
 #### View Stats
 
-![View Stats](documentation/view-stats.png)
+![Choose Opponent](documentation/choose-opponent.png)
 
 - Prints the Hero Name and Ability Stats
 
 #### Choose Opponent
 
-![View Stats](documentation/view-stats.png)
+![View Stats](documentation/choose-opponent.png)
 
 - A list of oppponents are printed in two rows displaying unbeaten opponents to choose from
+
+#### Leader Board
+
+![Leader Board](documentation/leader-board.png)
 
 #### View Wins
 
@@ -64,9 +68,13 @@ The site can be accessed by this [link](https://lord-of-the-strings-1fb32555cef6
 
 #### Download New Opponents
 
+![Download New Opponents](documentation/download-new-opponents.png)
+
 - A fresh set of opponents are being fetched through google API allowing the game developer to constantly updating the gaming experience without needing to update the app
 
-#### Reset Opponents to Start Settings
+#### Game Info
+
+![Game Info](documentation/game-info.png)
 
 - Removes all previous wins and downloaded opponents and resets the opponents list to the start settings. The players accumulated stats are being kept
 
@@ -138,7 +146,7 @@ The site can be accessed by this [link](https://lord-of-the-strings-1fb32555cef6
 ## Tools
 
 - [EzGif](https://ezgif.com) was used to resize GIF images.
-- [mockupGen](https://websitemockupgenerator.com/) was used for responsive mockup png.
+- [mockupGen](https://techsini.com/multi-mockup/) was used for responsive mockup png.
 - [Miro](http://www.miro.com/) for flowchart creation.
 
 ## Acknowledgments
