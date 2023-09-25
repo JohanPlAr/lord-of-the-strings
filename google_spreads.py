@@ -76,6 +76,10 @@ def upload_to_leader_board(player, leader_board):
                 LEADER_BOARD.append_row(player_row)
                 text_center(f"Congratulations you reached number {num}!")
                 break
+            else:
+                text_center(f'Score: "{player.score}" is too low for Leader Board')
+                text_center("Better luck next time")
+                break
 
     return leader_board
 

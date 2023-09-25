@@ -187,7 +187,6 @@ lost battle."""
                 if upload_player.lower() == "y":
                     upload_to_leader_board(player, leader_board)
                     print(player)
-                    text_center("Successful upload to Leader Board")
                     text_center("GOOD BYE!")
                     exit()
                 else:
