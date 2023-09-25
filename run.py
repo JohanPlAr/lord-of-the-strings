@@ -180,13 +180,19 @@ lost battle."""
             text_center("Enjoy playing Lord of the Strings")
             leave()
         elif selection == "8":
-            upload_player = input_center(f"Upload {player.name} to leader board? y/n: ")
-            if upload_player.lower() == "y":
-                upload_to_leader_board(player, leader_board)
-                print(player)
-                text_center("Successful upload to Leader Board")
-                text_center("GOOD BYE!")
-                exit()
+            if player != "Hero has not been created":
+                upload_player = input_center(
+                    f"Upload {player.name} to leader board? y/n: "
+                )
+                if upload_player.lower() == "y":
+                    upload_to_leader_board(player, leader_board)
+                    print(player)
+                    text_center("Successful upload to Leader Board")
+                    text_center("GOOD BYE!")
+                    exit()
+                else:
+                    text_center("GOOD BYE!")
+                    exit()
             else:
                 text_center("GOOD BYE!")
                 exit()
