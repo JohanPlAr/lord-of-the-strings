@@ -1,5 +1,5 @@
 """
-Functions handles the dice operations
+The functions in this file handle the dice operations
 """
 import random
 

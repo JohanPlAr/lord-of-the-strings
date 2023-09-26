@@ -1,5 +1,5 @@
 """
-Handles the API calls and csv reads
+Handles the API calls and csv reads and uploads
 """
 import gspread
 from google.oauth2.service_account import Credentials

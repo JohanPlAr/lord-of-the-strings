@@ -5,7 +5,7 @@
 # _Lord of the Strings_
 
 Lord of The Strings is a console prompt based RPG adventure-game powered by AI storytelling. Create a character with unique abilities, battle fierce oponents and challenge High Score characters from previous players.
-The site can be accessed by this [link](https://lord-of-the-strings-1fb32555cef6.herokuapp.com/)
+The app can be accessed by this [link](https://lord-of-the-strings-1fb32555cef6.herokuapp.com/)
 
 ![Responsive Mockup](documentation/responsive-mockup.png)
 
@@ -50,35 +50,35 @@ The site can be accessed by this [link](https://lord-of-the-strings-1fb32555cef6
 
 - Enter your Heros name and type Human/Elf/Dwarf/Orc. The initial abilitiy stats Strength/Health/Sword Skill/Armor will be automatically generated based on what type of character chosen. Then extra ability points will be added for the user to deploy as preferred. A Unique Hero is created each time
 
-#### View Stats
+#### Choose Opponent
 
 ![Choose Opponent](documentation/choose-opponent.png)
 
 - Prints the Hero Name and Ability Stats
 
-#### Choose Opponent
-
-![View Stats](documentation/choose-opponent.png)
-
-- A list of oppponents are printed in two rows displaying unbeaten opponents to choose from
-
 #### Leader Board
 
 ![Leader Board](documentation/leader-board.png)
 
-- A list of previous players High Scoring characters. Choose a opponent from the list to challenge them in a battle.
+- A list of previous players High Scoring characters. Choose a opponent from the list to challenge them in a battle
 
-#### View Wins
+#### View Stats
 
 ![View Stats](documentation/view-stats.png)
 
-- A list of beaten opponents is printed
+- A profile of the players stats are printed for the user to keep track of the development and to be able to assess which opponent they are likely to be able to stand up against
 
 #### Download New Opponents
 
 ![Download New Opponents](documentation/download-new-opponents.png)
 
 - A fresh set of opponents are being fetched through google API allowing the game developer to constantly update the gaming experience without needing to update the app
+
+#### View Wins
+
+![View Stats](documentation/view-stats.png)
+
+- A list of beaten opponents is printed
 
 #### Game Info
 
@@ -90,14 +90,14 @@ The site can be accessed by this [link](https://lord-of-the-strings-1fb32555cef6
 
 - Ends the game and offers the option to upload to Leader Board. Score needs to be among the top 20 highest scores.
 
-#### Chat GPT-Storyteller
+### Chat GPT-Storyteller
 
 - When the player has chosen an opponent a message is sent via OPENAI:s API to chat-gpt with the following information:
 "role": "system", "content": "You are a Storyteller
- f"""Set up with dialouge that leads to {player.name} the {player.char_type}
+ f"""Set up a dialouge that leads to {player.name} the {player.char_type}
 and {enemy.name} the {enemy.char_type} drawing their weapons and comencing a sword_battle against eachother. Maximum length 70 words"""
 
-OPENAI API then sends a reply which is printed in the console.
+OPENAI API then sends a reply which is printed in the console. 
 
 ## Future Features
 
@@ -106,6 +106,10 @@ OPENAI API then sends a reply which is printed in the console.
 - Map with story created by chat-gpt placing oppponents in different parts of the world
 
 - Add Character items inventory
+
+- Involve Chat-GPT in creating scenes, choices and new opponents
+
+- Let Chat-GPT control the path of oppponents
 
 
 ## Data Model
@@ -116,9 +120,11 @@ OPENAI API then sends a reply which is printed in the console.
 
 - The class also has methods as **str** to print the character stats in a viewable fashion
 
+- GSPREAD API is used to store opponents and high score characters data that can be altered by the developer without any change in the code. This allows the game to constantly be updated offering new gaming experiences.
+
 ## Random Dice functions
 
-- To create a unique experience each time playing a dice function simulating a six sided dice is implemented creating the stats.
+- To create a unique experience each time playing, a dice function simulating a six sided dice is implemented creating the stats.
 
 - To increase unpredictability in the battle I created a dice function that transforms every six in a dice roll to two new dice rolls. The benefit of this is that a underdog opponent has a greater chance to get lucky. This function called battle_dice is only used in the battle function.
 
@@ -136,7 +142,7 @@ OPENAI API then sends a reply which is printed in the console.
 
 ### Bugs
 
-- When I originaly designed the code I updated the Google API after each battle. This caused the API to break because excessive use. I fixed this be rearranging the updates to be kept in a list of lists inside the program and passed along as peremiters between the functions.
+- When I originaly designed the code I updated the Google API after each battle. This caused the API to break due to excessive use. I fixed this be rearranging the updates to be kept in a list of lists inside the program and passed along as peremiters between the functions.
 - The battle logic was to deterministic based on the character stats making the game to predictable. I fixed this by adding a battleDice function to increase unpredectability.
 - I originally put the OpenAI key in a key.text file and "gitignored" it. When sent to heroku I was not able to get the API running. I fixed this by adding a .env file and add a new config var in Heroku.
 - Menu ValueErrors have appeared through out the development of the game and have step by step been removed and replaced with feedback to the user how to correctly prompt.
@@ -162,6 +168,7 @@ OPENAI API then sends a reply which is printed in the console.
 - Set the buildbacks to Python and NodeJS in thet order
 - Link the Heroku app to the repository
 - Click on Deploy
+- Enter API key:s to config vars in Heroku
 
 ## Credits
 
@@ -170,7 +177,6 @@ OPENAI API then sends a reply which is printed in the console.
 
 ## Tools
 
-- [EzGif](https://ezgif.com) was used to resize GIF images.
 - [mockupGen](https://techsini.com/multi-mockup/) was used for responsive mockup png.
 - [Miro](http://www.miro.com/) for flowchart creation.
 
