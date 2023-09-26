@@ -251,6 +251,7 @@ def opponents_lst(player, enemy_lst, leader_board, list_num):
                 text_center("Pick a number from the list or 'M' menu.")
                 text_center(f"You entered '{opponent}'")
                 input_center("Enter to continue")
+                opponents_lst(player, enemy_lst, leader_board, list_num)
 
         except ValueError:
             text_center("Pick a number from the list or 'M' menu.")
@@ -258,10 +259,6 @@ def opponents_lst(player, enemy_lst, leader_board, list_num):
             input_center("Enter to continue")
 
         else:
-            game_title()
-            print()
-            text_center(player)
-            leave()
             game_menu(player, enemy_lst, leader_board)
             break
 
@@ -418,11 +415,18 @@ def stat_points_input(player, stat_points):
             activate_stat_points = int(
                 input_center("How many points do you wish to add: ")
             )
+            if activate_stat_points < 0:
+                game_title()
+                text_center(f"You have {stat_points} points to improve your stats")
+                print(player)
+                text_center(f"Please choose a number 0-{stat_points}")
+                continue
             if activate_stat_points > stat_points or activate_stat_points < 0:
                 game_title()
                 text_center(f"You have {stat_points} points to improve your stats")
                 print(player)
                 text_center(f"Please choose a number 0-{stat_points}")
+                continue
         except ValueError:
             game_title()
             text_center(f"You have {stat_points} points to improve your stats")
@@ -577,4 +581,5 @@ def main():
     game_menu(player, enemy_lst, leader_board)
 
 
-main()
+if __name__ == "__main__":
+    main()

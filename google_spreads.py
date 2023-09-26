@@ -92,14 +92,9 @@ def download(enemy_lst):
     """
     addenemy_lst = MOREENEMIES.get_all_values()[1:]
     list_num = 0
+    new_lst = [*enemy_lst]
     for row in addenemy_lst:
         list_num += 1
-        if row[1] in [sublist[1] for sublist in enemy_lst]:
-            addenemy_lst.pop(list_num - 1)
-    list_num = 0
-    for row in enemy_lst:
-        list_num += 1
-        if row[1] not in [sublist[1] for sublist in addenemy_lst]:
-            addenemy_lst.append(row)
-    enemy_lst = addenemy_lst
-    return enemy_lst
+        if row[1] not in [sublist[1] for sublist in new_lst]:
+            new_lst.append(row)
+    return new_lst
