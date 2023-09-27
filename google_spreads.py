@@ -43,7 +43,9 @@ def upload_to_leader_board(player, leader_board):
     """
     Adds the player to the Leader Board CSV file if player
     reaches the top 20. Only adds to the csv if player has
-    a top 20 score.
+    a top 20 score. If the Leader Board list is shorter than
+    20, the player is uploaded if any of the existing high
+    score players are beaten.
     """
     player_row = [
         player.char_type,
@@ -89,9 +91,8 @@ def upload_to_leader_board(player, leader_board):
 def download(enemy_lst):
     """
     Updates the enemy_lst with new enemies. The addenemy_lst list is
-    crosschecked against enemy_lst and duplicates are removed. The enemy_lst
-    is added to the bottom of addenemy_lst and then redefined to equal the
-    updated addenemy_lst before returned.
+    crosschecked against enemy_lst and new enemies are added to the
+    enemy_lst as new_lst.
     """
     addenemy_lst = MOREENEMIES.get_all_values()[1:]
     list_num = 0

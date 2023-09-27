@@ -7,7 +7,8 @@ import textwrap
 
 def clear_screen():
     """
-    Clears the screen, cover the commands for Windows "nt" with "cls" and clear for else
+    Clears the screen, cover the commands for Windows "nt" with "cls" and clear
+    for else
     """
     os.system("cls" if os.name == "nt" else "clear")
 

@@ -142,7 +142,27 @@ OPENAI API then sends a reply which is printed in the console.
 
 - I have manually tested the project by doing the following:
 
-* Passed the code through a PEP8 linter and confirmed there are no problems
+* Passed module code through a PEP8 linter and confirmed there are no problems
+### run.py
+
+![run.py](documentation/run.py-linter.png)
+
+### google_spreads.py
+
+![google_spreads.py](documentation/google-spreads-linter.png)
+
+### ai_storyteller.py
+
+![ai_storyteller.py](documentation/ai-storyteller-linter.png)
+
+### dice_funcs.py
+
+![dice_funcs.py](documentation/dice-funcs-linter.png)
+
+### print_functions.py
+
+![print_functions.py](documentation/print-functions-linter.png)
+
 * Given invalid inputs: strings when numbers are expected, out of bounds inputs.
 * Tested my local terminal and the Code Institute Heroku terminal
 
@@ -257,6 +277,10 @@ OPENAI API then sends a reply which is printed in the console.
     <td>User is presented with fight or flight input</td>
     <td>Confirmed</td>
   </tr>
+     <td>All other input</td>
+    <td>Presents error and presents Opponents List</td>
+    <td>Presents error and presents Opponents List</td>
+    <td>Confirmed</td>
    <tr>
     <td>Choose Opponent step 2</td>
     <td>User inputs "1" for fight</td>

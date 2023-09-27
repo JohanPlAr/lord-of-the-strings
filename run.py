@@ -86,6 +86,11 @@ def game_menu(player, enemy_lst, leader_board):
             character_input(player, enemy_lst, leader_board)
         elif selection == "2":
             if player != "Hero has not been created":
+                """
+                Lets the player choose an opponent from the Opponents Lst 
+                read the enemy's stats and and decide to enter a battle or 
+                to choose another opponent.
+                """
                 while True:
                     game_title()
                     list_num = 0
@@ -117,6 +122,11 @@ def game_menu(player, enemy_lst, leader_board):
                 leave()
                 game_menu(player, enemy_lst, leader_board)
         elif selection == "3":
+            """
+            Lets the player choose an opponent from the Leader Board 
+            read the enemy's stats and and decide to enter a battle or 
+            to choose another opponent.
+            """
             while True:
                 game_title()
                 if player != "Hero has not been created":
@@ -149,6 +159,9 @@ def game_menu(player, enemy_lst, leader_board):
                     break
 
         elif selection == "4":
+            """
+            Prints the player profile
+            """
             game_title()
             if player != "Hero has not been created":
                 print(player)
@@ -158,6 +171,9 @@ def game_menu(player, enemy_lst, leader_board):
                 leave()
 
         elif selection == "5":
+            """
+            Downloads new enemies if not already present in list.
+            """
             new_enemy_lst = download(enemy_lst)
             if len(new_enemy_lst) > len(enemy_lst):
                 enemy_lst = new_enemy_lst
@@ -167,10 +183,16 @@ def game_menu(player, enemy_lst, leader_board):
                 text_center("No new enemies available")
                 leave()
         elif selection == "6":
+            """
+            Presents a list of beaten opponents
+            """
             game_title()
             wins_lst(enemy_lst)
             leave()
         elif selection == "7":
+            """
+            Presents information about the game concept and structure
+            """
             game_title()
             text_center("GAME INFO")
             print()
@@ -344,6 +366,14 @@ def character_input(player, enemy_lst, leader_board):
         else:
             break
     while True:
+        """
+        Lets the player select Type. All inputs are handled to match
+        requirements or a error message with instructions are 
+        presented. Humans have alround abilities, Elfs have extra
+        statpoints and swordskill but lower strenght. Dwarves have
+        greater strength and armor. Orcs have some armor good strength
+        and medium health but lack some sword skill.
+        """
         type_choice = input(
             "\t\t1. Human\n\t\t2. Elf\n\t\t3. Dwarf\n\t\t4. Orc\n\n\t\tTYPE: "
         ).lower()

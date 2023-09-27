@@ -18,7 +18,9 @@ def configure():
 def story(player, enemy):
     """
     Api call to chat-gpt asking it to reply to a string prepared with type and
-    name. Length limit of the reply is included in the string
+    name. Length limit of the reply is included in the string. The reply is
+    sent as a peremiter inside the log_text function that sets the line length
+    to max 62 characters.
     """
     clear_screen()
     messages = [

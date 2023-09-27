@@ -6,7 +6,7 @@ import random
 
 def dice(num):
     """
-    Simulates a six sided dice roll. The num parameter describes number of
+    Simulates a six sided dice roll. The num perimeter describes number of
     rolls being called
     """
     result = 0
