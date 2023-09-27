@@ -38,6 +38,12 @@ The app can be accessed by this [link](https://lord-of-the-strings-1fb32555cef6.
 
 ## Features
 
+### Title Page
+
+![Title Page](documentation/title-page.png)
+
+- An introductory print setting the user expectations for the game experience
+
 ### Game Menu
 
 ![Game Menu](documentation/game-menu.png)
@@ -140,12 +146,153 @@ OPENAI API then sends a reply which is printed in the console.
 * Given invalid inputs: strings when numbers are expected, out of bounds inputs.
 * Tested my local terminal and the Code Institute Heroku terminal
 
+<table>
+<thead>
+  <tr>
+    <th>Testing Description</th>
+    <th>Expected Action</th>
+    <th>Actual Output</th>
+    <th>Result</th>
+
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Title Page Loads</td>
+    <td>User is presented with Title Page</td>
+    <td>User is presented with Title Page</td>
+    <td>Confirmed</td>
+  </tr>
+  <tr>
+    <td>Game Menu Loads</td>
+    <td>User is presented with Game Menu</td>
+    <td>User is presented with Game Menu</td>
+    <td>Confirmed</td>
+  </tr>
+  <tr>
+    <td>Main Menu Option 1</td>
+    <td>User is presented with Create Character view</td>
+    <td>User is presented with Create Character view</td>
+    <td>Confirmed</td>
+  </tr>
+  <tr>
+    <td>Main Menu Option 2</td>
+    <td>User is presented with Opponents view</td>
+    <td>User is presented with Opponents view</td>
+    <td>Confirmed</td>
+  </tr>
+  <tr>
+    <td>Main Menu Option 3</td>
+    <td>User is presented with Leader Board view</td>
+    <td>User is presented with Leader Board view</td>
+    <td>Confirmed</td>
+  </tr>
+  <tr>
+    <td>Main Menu Option 4</td>
+    <td>User is presented with Player Stats view</td>
+    <td>User is presented with Player Stats view</td>
+    <td>Confirmed</td>
+  </tr>
+     <td>Main Menu Option 5</td>
+    <td>User is getting confirmation on download attempt</td>
+    <td>User is getting confirmation on download attempt</td>
+    <td>Confirmed</td>
+  </tr>
+     <td>Main Menu Option 6</td>
+    <td>User is presented with list of beaten oppponents</td>
+    <td>User is presented with list of beaten opponents</td>
+    <td>Confirmed</td>
+  </tr>
+   <td>Main Menu Option 7</td>
+    <td>User is presented with Game Info view</td>
+    <td>User is presented with Game Info view</td>
+    <td>Confirmed</td>
+  </tr>
+     <td>Main Menu Option 8</td>
+    <td>User is presented with Quit Game view</td>
+    <td>User is presented with Quit Game view</td>
+    <td>Confirmed</td>
+  </tr>
+  <tr>
+    <td>All other input</td>
+    <td>Presents error and presents menu</td>
+    <td>Presents error and presents menu</td>
+    <td>Confirmed</td>
+  </tr>
+  <tr>
+    <td>Create New Hero step 1</td>
+    <td>User Enters a name between 2-10 characters long</td>
+    <td>User is presented with Type: Input request</td>
+    <td>Confirmed</td>
+  </tr>
+  <td>All other input</td>
+    <td>Presents error and presents Name input request</td>
+    <td>Presents error and presents Name input request</td>
+    <td>Confirmed</td>
+  </tr>
+  <tr>
+    <td>Create New Hero step 2</td>
+    <td>User Enters a choice of 1-4 or the name of the Type</td>
+    <td>User is presented with initial Character Stats</td>
+    <td>Confirmed</td>
+  </tr>
+    <td>All other input</td>
+    <td>Presents error and presents Type input request</td>
+    <td>Presents error and presents Type input request</td>
+    <td>Confirmed</td>
+  </tr>
+    <tr>
+    <td>Create New Hero step 3</td>
+    <td>User Enters number within range of Stats Points </td>
+    <td>User is presented with updated Player Stats</td>
+    <td>Confirmed</td>
+  </tr>
+      <td>All other input</td>
+    <td>Presents error and presents Type input request</td>
+    <td>Presents error and presents Type input request</td>
+    <td>Confirmed</td>
+  <tr>
+    <td>Choose Opponent step 1</td>
+    <td>User inputs a number in the range of the list presented</td>
+    <td>User is presented with fight or flight input</td>
+    <td>Confirmed</td>
+  </tr>
+   <tr>
+    <td>Choose Opponent step 2</td>
+    <td>User inputs "1" for fight</td>
+    <td>User is presented with the Chat-Gpt story</td>
+    <td>Confirmed</td>
+  </tr>
+     <tr>
+    <td>Choose Opponent step 2</td>
+    <td>User inputs "2" for fight</td>
+    <td>User is presented with the Opponents List</td>
+    <td>Confirmed</td>
+  </tr>
+   <td>All other input</td>
+    <td>Presents error and presents Opponents List</td>
+    <td>Presents error and presents Opponents List</td>
+    <td>Confirmed</td>
+  </tbody>
+</table>
+
 ### Bugs
 
 - When I originaly designed the code I updated the Google API after each battle. This caused the API to break due to excessive use. I fixed this be rearranging the updates to be kept in a list of lists inside the program and passed along as peremiters between the functions.
-- The battle logic was to deterministic based on the character stats making the game to predictable. I fixed this by adding a battleDice function to increase unpredectability.
+- The battle logic was to deterministic based on the character stats making the game predictable. I fixed this by adding a battleDice function to increase unpredectability.
 - I originally put the OpenAI key in a key.text file and "gitignored" it. When sent to heroku I was not able to get the API running. I fixed this by adding a .env file and add a new config var in Heroku.
 - Menu ValueErrors have appeared through out the development of the game and have step by step been removed and replaced with feedback to the user how to correctly prompt.
+
+## Libraries and packages used
+
+- gspread Google API for GoogleSheets
+- google.oauth2.service_account Account used to share the worksheets with
+- os for clear screen functions
+- dotenv for .env secure api-key handling
+- time for battle sequences
+- random for dice functions
+- openai for chat-gpt API message and replies
+- textwrap for editing of the longer storyline texts
 
 ## Remaining Bugs
 
@@ -177,6 +324,7 @@ OPENAI API then sends a reply which is printed in the console.
 
 ## Tools
 
+- [VSCode](https://code.visualstudio.com) used to edit the application source code.
 - [mockupGen](https://techsini.com/multi-mockup/) was used for responsive mockup png.
 - [Miro](http://www.miro.com/) for flowchart creation.
 
