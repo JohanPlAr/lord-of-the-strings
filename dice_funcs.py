@@ -6,8 +6,8 @@ import random
 
 def dice(num):
     """
-    Simulates a six sided dice roll. The num parameter describes number of rolls
-    being called
+    Simulates a six sided dice roll. The num parameter describes number of
+    rolls being called
     """
     result = 0
     total = 0
@@ -19,9 +19,9 @@ def dice(num):
 
 def battle_dice(num, total):
     """
-    Simulates a six sided dice with the addition that all sixes generates two new
-    rolls of dice. This function is only used in the sword_battle function to
-    increase serendipity and allow higher uncertainty in the battles.
+    Simulates a six sided dice with the addition that all sixes generates two
+    new rolls of dice. This function is only used in the sword_battle function
+    to increase serendipity and allow higher uncertainty in the battles.
     """
     result = 0
     sixes = []

@@ -77,7 +77,9 @@ def upload_to_leader_board(player, leader_board):
                 text_center(f"Congratulations you reached number {num}!")
                 break
             else:
-                text_center(f'Score: "{player.score}" is too low for Leader Board')
+                text_center(
+                    f'Score: "{player.score}" is too low for Leader Board'
+                    )
                 text_center("Better luck next time")
                 break
 
@@ -86,9 +88,10 @@ def upload_to_leader_board(player, leader_board):
 
 def download(enemy_lst):
     """
-    Updates the enemy_lst with new enemies. The addenemy_lst list is crosschecked against enemy_lst
-    and duplicates are removed. The enemy_lst is added to the bottom of addenemy_lst and then
-    redefined to equal the updated addenemy_lst before returned.
+    Updates the enemy_lst with new enemies. The addenemy_lst list is
+    crosschecked against enemy_lst and duplicates are removed. The enemy_lst
+    is added to the bottom of addenemy_lst and then redefined to equal the
+    updated addenemy_lst before returned.
     """
     addenemy_lst = MOREENEMIES.get_all_values()[1:]
     list_num = 0

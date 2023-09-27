@@ -1,5 +1,5 @@
 """
-Holds main, menu, character creation and game functions. 
+Holds main, menu, character creation and game functions.
 """
 import time
 
@@ -23,8 +23,8 @@ from ai_storyteller import configure, story
 
 class CharacterStats:
     """
-    Object collects the character and selected enemy stats. __str__ used to make
-    the print of the object prettier.
+    Object collects the character and selected enemy stats. __str__ used to
+    make the print of the object prettier.
     """
 
     def __init__(
@@ -47,8 +47,8 @@ class CharacterStats:
 
     def __str__(self):
         player_title = (
-            f"---{self.name.upper()} THE MIGHTY {self.char_type.upper()}---".center(62)
-        )
+            f"---{self.name.upper()} THE MIGHTY {self.char_type.upper()}---"
+        ).center(62)
         abilities = f"""\t\t\t ⚔-SCORE-⚔:\t{self.score}
         \t\t1. STRENGTH:\t{self.strength_points}
         \t\t2. HEALTH:\t{self.health_points}
@@ -100,12 +100,16 @@ def game_menu(player, enemy_lst, leader_board):
                     challenge = input_center("Choose wisely:")
                     if challenge.lower() == "fight" or challenge == "1":
                         story(player, enemy)
-                        sword_battle(player, enemy_lst, enemy, num, leader_board)
+                        sword_battle(
+                            player, enemy_lst, enemy, num, leader_board
+                        )
                         break
                     elif challenge.lower() == "flight" or challenge == "2":
                         continue
                     else:
-                        text_center('Wrong input, Please choose "1" or "2" to continue')
+                        text_center(
+                            'Wrong input, Please choose "1" or "2" to continue'
+                            )
                         time.sleep(3)
             else:
                 game_title()
@@ -128,11 +132,15 @@ def game_menu(player, enemy_lst, leader_board):
                     challenge = input_center("Choose wisely: ")
                     if challenge.lower() == "fight" or challenge == "1":
                         story(player, enemy)
-                        sword_battle(player, enemy_lst, enemy, num, leader_board)
+                        sword_battle(
+                            player, enemy_lst, enemy, num, leader_board
+                            )
                     elif challenge.lower() == "flight" or challenge == "2":
                         continue
                     else:
-                        text_center("Wrong input, Please choose 1 or 2 to continue")
+                        text_center(
+                            "Wrong input, Please choose 1 or 2 to continue"
+                            )
                         time.sleep(3)
                 else:
                     game_title()
@@ -166,10 +174,12 @@ def game_menu(player, enemy_lst, leader_board):
             game_title()
             text_center("GAME INFO")
             long_text(
-                """Customize your character. HUMAN/ELF/DWARF/ORC have different \
-strengths. A story is printed when entering the battle. Improve your character with \
-recieved statpoints. Battle the built in opponents or high score players and reach \
-the Leader Board top 20. Hero Uploads when leaving the game.
+                """Customize your character. HUMAN/ELF/DWARF/ORC have \
+different strengths. A story is printed when entering the battle. \
+Improve your character with recieved statpoints. Battle the built in \
+opponents or high score players and reach the Leader Board top 20. \
+Hero Uploads when leaving the game.
+
 
 The battle is automated based on the player abilities and dice results.\
 Sword Skill, Score and dice results affects who wins the round. Strength and \
@@ -221,7 +231,10 @@ def opponents_lst(player, enemy_lst, leader_board, list_num):
                 two_col_lst.append(f"{x_num}. {row[1].upper()} \t{row[6]}")
                 x_num += 1
 
-        for first, second in zip(two_col_lst[::columns], two_col_lst[1::columns]):
+        for first, second in zip(
+            two_col_lst[::columns],
+            two_col_lst[1::columns]
+        ):
             print(f"\t\t{first: <13} \t{second: <13}")
         for first in two_col_lst[-1::columns]:
             if len(two_col_lst) % 2 == 1:
@@ -234,7 +247,9 @@ def opponents_lst(player, enemy_lst, leader_board, list_num):
         x_num = 0
 
         print()
-        opponent = input_center("Please select an opponent or 'M' for back to menu: ")
+        opponent = input_center(
+            "Please select an opponent or 'M' for back to menu: "
+            )
         if opponent.lower() == "m":
             game_menu(player, enemy_lst, leader_board)
 
@@ -276,7 +291,13 @@ def get_enemy(enemy_lst, num):
     armor = int(enemy_vals[5])
     score = int(enemy_vals[6])
     enemy = CharacterStats(
-        char_type, name, strength_points, health_points, skill_points, armor, score
+        char_type,
+        name,
+        strength_points,
+        health_points,
+        skill_points,
+        armor,
+        score
     )
     return enemy, num
 
@@ -302,7 +323,9 @@ def character_input(player, enemy_lst, leader_board):
     """
     game_title()
     if player != "Hero has not been created":
-        text_center(f" WARNING! Creating a new character will erase {player.name}")
+        text_center(
+            f" WARNING! Creating a new character will erase {player.name}"
+        )
         continue_create = input_center("Do you still wish to continue y/n?")
         if continue_create.lower() != "y":
             game_menu(player, enemy_lst, leader_board)
@@ -400,7 +423,8 @@ def character_input(player, enemy_lst, leader_board):
             break
         else:
             text_center(
-                f"Choices available are Human/Elf/Dwarf/Orc\nYou entered '{type_choice}'"
+                f"Choices available are Human/Elf/Dwarf/Orc\n \
+                You entered '{type_choice}'"
             )
     add_stat_points(player, stat_points, enemy_lst, leader_board)
     return player
@@ -417,13 +441,17 @@ def stat_points_input(player, stat_points):
             )
             if activate_stat_points < 0:
                 game_title()
-                text_center(f"You have {stat_points} points to improve your stats")
+                text_center(
+                    f"You have {stat_points} points to improve your stats"
+                )
                 print(player)
                 text_center(f"Please choose a number 0-{stat_points}")
                 continue
             if activate_stat_points > stat_points or activate_stat_points < 0:
                 game_title()
-                text_center(f"You have {stat_points} points to improve your stats")
+                text_center(
+                    f"You have {stat_points} points to improve your stats"
+                    )
                 print(player)
                 text_center(f"Please choose a number 0-{stat_points}")
                 continue
@@ -438,8 +466,8 @@ def stat_points_input(player, stat_points):
 
 def add_stat_points(player, stat_points, enemy_lst, leader_board):
     """
-    The final stage of the character creation which let's the user place stat_points
-    of their choice. Also stat points are added after a battle
+    The final stage of the character creation which let's the user place
+    stat_points of their choice. Also stat points are added after a battle
     """
     while True:
         game_title()
@@ -482,7 +510,10 @@ def add_stat_points(player, stat_points, enemy_lst, leader_board):
             else:
                 not_enough_points(player, stat_points, enemy_lst, leader_board)
         else:
-            print(f"Choices available are 1,2,3,4\nYou entered '{select_attribute}'")
+            print(
+                f"Choices available are 1,2,3,4\nYou entered \
+                '{select_attribute}'"
+            )
 
 
 def not_enough_points(player, stat_points, enemy_lst, leader_board):
@@ -509,7 +540,9 @@ def sword_battle(player, enemy_lst, enemy, num, leader_board):
         )
         time.sleep(1)
         if attack == 0:
-            text_center("The swords clash and no damage is dealt to either opponent")
+            text_center(
+                "The swords clash and no damage is dealt to either opponent"
+                )
             time.sleep(2)
         if attack > 0:
             damage = (player.strength_points + dice(1)) - round(
@@ -518,15 +551,21 @@ def sword_battle(player, enemy_lst, enemy, num, leader_board):
             if damage < 1:
                 damage = 1
             text_center(
-                f"{player.name.upper()} strikes {enemy.name.upper()} who loses {damage} HP"
+                f"{player.name.upper()} strikes {enemy.name.upper()} \
+who loses {damage} HP"
             )
             enemy.health_points -= damage
-            text_center(f"{enemy.name.upper()} has {enemy.health_points} HP left")
+            text_center(
+                f"{enemy.name.upper()} has {enemy.health_points} \
+HP left"
+            )
             time.sleep(2)
             if enemy.health_points < 1:
                 game_title()
                 text_center(f"{enemy.name.upper()} recieves a final blow.")
-                text_center(f"{player.name.upper()} lifts the sword in triumph")
+                text_center(
+                    f"{player.name.upper()} lifts the sword in triumph"
+                    )
                 text_center(f"{enemy.name.upper()} is defeated.")
 
                 input_center("Press enter to continue the quest:")
@@ -545,10 +584,14 @@ def sword_battle(player, enemy_lst, enemy, num, leader_board):
             if damage < 1:
                 damage = 1
             text_center(
-                f"{enemy.name.upper()} strikes {player.name.upper()} who loses {damage} HP"
+                f"{enemy.name.upper()} strikes {player.name.upper()} who \
+loses {damage} HP"
             )
             player.health_points -= damage
-            text_center(f"{player.name.upper()} has {player.health_points} HP left")
+            text_center(
+                f"{player.name.upper()} has {player.health_points} \
+HP left"
+            )
             if player.health_points < 1:
                 text_center(f"{player.name.upper()} recieves a final blow.")
                 text_center(f"{enemy.name.upper()} lifts sword in triumph")

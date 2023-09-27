@@ -17,22 +17,23 @@ def configure():
 
 def story(player, enemy):
     """
-    Api call to chat-gpt asking it to reply to a string prepared with type and name.
-    Length limit of the reply is included in the string
+    Api call to chat-gpt asking it to reply to a string prepared with type and
+    name. Length limit of the reply is included in the string
     """
     clear_screen()
     messages = [
         {"role": "system", "content": "You are a Storyteller"},
     ]
-    message = f"""Set up with dialouge that leads to {player.name} the {player.char_type}
-               and {enemy.name} the {enemy.char_type} drawing their weapons and comencing
-               a sword_battle against eachother. 
-               Maximum length 70 words"""
+    message = f"""Set up with dialouge that leads to {player.name} the
+    {player.char_type} and {enemy.name} the {enemy.char_type} drawing their
+    weapons and comencing a sword_battle against eachother. Maximum length
+    70 words"""
     if message:
         messages.append(
             {"role": "user", "content": message},
         )
-        chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
+        chat = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo", messages=messages)
 
     reply = chat.choices[0].message.content
     game_title()
