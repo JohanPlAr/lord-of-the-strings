@@ -173,19 +173,19 @@ def game_menu(player, enemy_lst, leader_board):
         elif selection == "7":
             game_title()
             text_center("GAME INFO")
+            print()
             long_text(
                 """Customize your character. HUMAN/ELF/DWARF/ORC have \
-different strengths. A story is printed when entering the battle. \
-Improve your character with recieved statpoints. Battle the built in \
-opponents or high score players and reach the Leader Board top 20. \
-Hero Uploads when leaving the game.
-
-
-The battle is automated based on the player abilities and dice results.\
-Sword Skill, Score and dice results affects who wins the round. Strength and \
-Armor affects the damage. Health Points are reduced until 0 which marks a \
-lost battle."""
+different strengths. Improve your character with recieved statpoints. \
+Battle the built in opponents or high score players and reach the \
+Leader Board top 20. Hero Uploads when leaving the game."""
             )
+            print()
+            long_text("""The battle is automated based on the player \
+abilities and dice results. Sword Skill, Score and dice results affects \
+who wins the round. Strength and Armor affects the damage. Health Points \
+are reduced until 0 which marks a lost battle. A unique story is told \
+each time a battle is entered""")
             print()
             text_center("Enjoy playing Lord of the Strings")
             leave()
