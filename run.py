@@ -87,8 +87,8 @@ def game_menu(player, enemy_lst, leader_board):
         elif selection == "2":
             if player != "Hero has not been created":
                 """
-                Lets the player choose an opponent from the Opponents Lst 
-                read the enemy's stats and and decide to enter a battle or 
+                Lets the player choose an opponent from the Opponents Lst
+                read the enemy's stats and and decide to enter a battle or
                 to choose another opponent.
                 """
                 while True:
@@ -123,8 +123,8 @@ def game_menu(player, enemy_lst, leader_board):
                 game_menu(player, enemy_lst, leader_board)
         elif selection == "3":
             """
-            Lets the player choose an opponent from the Leader Board 
-            read the enemy's stats and and decide to enter a battle or 
+            Lets the player choose an opponent from the Leader Board
+            read the enemy's stats and and decide to enter a battle or
             to choose another opponent.
             """
             while True:
@@ -368,7 +368,7 @@ def character_input(player, enemy_lst, leader_board):
     while True:
         """
         Lets the player select Type. All inputs are handled to match
-        requirements or a error message with instructions are 
+        requirements or a error message with instructions are
         presented. Humans have alround abilities, Elfs have extra
         statpoints and swordskill but lower strenght. Dwarves have
         greater strength and armor. Orcs have some armor good strength
@@ -454,9 +454,10 @@ def character_input(player, enemy_lst, leader_board):
         else:
             game_title()
             text_center(
-                f"Choices available are Human/Elf/Dwarf/Orc\n \
-                You entered '{type_choice}'"
-            )
+                "Choices available are Human/Elf/Dwarf/Orc"
+                )
+            text_center(f"You entered '{type_choice}'")
+            continue
     add_stat_points(player, stat_points, enemy_lst, leader_board)
     return player
 
@@ -485,12 +486,14 @@ def stat_points_input(player, stat_points):
                     )
                 print(player)
                 text_center(f"Please choose a number 0-{stat_points}")
+                input_center("Enter to continue")
                 continue
         except ValueError:
             game_title()
             text_center(f"You have {stat_points} points to improve your stats")
             print(player)
             text_center(f"Please choose a number 0-{stat_points}")
+            input_center("Enter to continue")
             continue
         return int(activate_stat_points)
 
@@ -541,10 +544,14 @@ def add_stat_points(player, stat_points, enemy_lst, leader_board):
             else:
                 not_enough_points(player, stat_points, enemy_lst, leader_board)
         else:
-            print(
-                f"Choices available are 1,2,3,4\nYou entered \
-                '{select_attribute}'"
+            text_center(
+                "Choices available are 1,2,3,4"
             )
+            text_center(
+                f"You entered '{select_attribute}'"
+            )
+            input_center("Enter to continue")
+            continue
 
 
 def not_enough_points(player, stat_points, enemy_lst, leader_board):
