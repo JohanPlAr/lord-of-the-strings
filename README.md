@@ -4,7 +4,7 @@
 
 # _Lord of the Strings_
 
-Lord of The Strings is a console prompt based RPG adventure-game powered by AI storytelling. Create a character with unique abilities, battle fierce oponents and challenge High Score characters from previous players.
+Lord of The Strings is a console prompt based RPG adventure-game powered by AI storytelling. Create a character with unique abilities, battle fierce opponents and challenge High Score characters from previous players.
 The app can be accessed by this [link](https://lord-of-the-strings-1fb32555cef6.herokuapp.com/)
 
 ![Responsive Mockup](documentation/responsive-mockup.png)
@@ -42,7 +42,7 @@ The app can be accessed by this [link](https://lord-of-the-strings-1fb32555cef6.
 
 ![Title Page](documentation/title-page.png)
 
-- An introductory print setting the user expectations for the game experience
+- An introductory title view, setting the user expectations for the game experience
 
 ### Game Menu
 
@@ -196,6 +196,9 @@ OPENAI API then sends a reply which is printed in the console.
     <td>Confirmed</td>
   </tr>
   <tr>
+    <td>If Hero Created</td>
+  </tr>
+  <tr>
     <td>Main Menu Option 2</td>
     <td>User is presented with Opponents view</td>
     <td>User is presented with Opponents view</td>
@@ -213,7 +216,27 @@ OPENAI API then sends a reply which is printed in the console.
     <td>User is presented with Player Stats view</td>
     <td>Confirmed</td>
   </tr>
-     <td>Main Menu Option 5</td>
+ <tr>
+    <td>If Hero Not Created</td>
+  </tr>
+     <td>Main Menu Option 2</td>
+    <td>User is presented with "Hero has not been created"</td>
+    <td>User is presented with "Hero has not been created"</td>
+    <td>Confirmed</td>
+  </tr>
+  <tr>
+    <td>Main Menu Option 3</td>
+    <td>User is presented with "Hero has not been created"</td>
+    <td>User is presented with "Hero has not been created"</td>
+    <td>Confirmed</td>
+  </tr>
+  <tr>
+    <td>Main Menu Option 4</td>
+    <td>User is presented with "Hero has not been created"</td>
+    <td>User is presented with "Hero has not been created"</td>
+    <td>Confirmed</td>
+  </tr>
+  <td>Main Menu Option 5</td>
     <td>User is getting confirmation on download attempt</td>
     <td>User is getting confirmation on download attempt</td>
     <td>Confirmed</td>
@@ -297,6 +320,16 @@ OPENAI API then sends a reply which is printed in the console.
     <td>Presents error and presents Opponents List</td>
     <td>Presents error and presents Opponents List</td>
     <td>Confirmed</td>
+  <td>Quit Game step 1</td>
+    <td>User enters y/Y to upload to Leader Board</td>
+    <td>Character is uploaded to Leader Board CSV</td>
+    <td>Confirmed</td>
+   <td>All other input</td>
+    <td>User is presenetd with "Good Bye!"</td>
+    <td>User is presented with "Good Bye!</td>
+    <td>Confirmed</td>
+
+
   </tbody>
 </table>
 
