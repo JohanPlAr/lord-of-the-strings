@@ -228,7 +228,7 @@ each time a battle is entered""")
                 text_center("GOOD BYE!")
                 exit()
         else:
-            text_center("Invalid option selected. Please try again.")
+            text_center("Invalid option selected. Please enter a number 1-8.")
             leave()
 
 
@@ -357,7 +357,7 @@ def character_input(player, enemy_lst, leader_board):
         print()
         name = input("\t\tNAME: ")
         print()
-        if len(name) < 3 or len(name) > 10:
+        if len(name) < 2 or len(name) > 10:
             game_title()
             text_center("Name length allowed: 2-10 characters")
             input_center("Enter to continue: ")
@@ -452,6 +452,7 @@ def character_input(player, enemy_lst, leader_board):
             )
             break
         else:
+            game_title()
             text_center(
                 f"Choices available are Human/Elf/Dwarf/Orc\n \
                 You entered '{type_choice}'"
